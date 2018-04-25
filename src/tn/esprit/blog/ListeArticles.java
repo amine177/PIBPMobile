@@ -28,18 +28,39 @@ import tn.esprit.widgets.SideMenuBaseForm;
  */
 public class ListeArticles extends SideMenuBaseForm {
 
+    Toolbar tb;
+    //Container globalC = new Container(BoxLayout.y());
     public ListeArticles(Resources res) {
+        this.tb = getToolbar();
         setupSideMenu(res);
-
+        Container c = new Container(BoxLayout.y());
+        Label testLabel = new Label("Lemme smash!");
+//        c.add(tb);
+        c.add(testLabel);
+       //c.setScrollableX(false);
+        //c.setScrollableY(false);
+        c.setScrollable(false);
+        add(c);
     }
 
     @Override
     public void setupSideMenu(Resources res) {
         Toolbar b = getToolbar();
         b.removeAll();
+        // Ajouter boutton a son container
         Button menuButton = new Button("Click me");
+        Container titleCmp = BoxLayout.encloseY(
+                FlowLayout.encloseIn(menuButton)             
+        );
+        
+      
+        titleCmp.setScrollableY(false);
+        titleCmp.setScrollableX(false);
+        // AJOUTER le container du BOUTTON OU toolbar
+        b.setTitleComponent(titleCmp);
+//        b.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));
+        //add(titleCmp);
         menuButton.setUIID("Title");
-        this.add(menuButton);
         menuButton.addActionListener((e) -> b.openSideMenu());
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         b.addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
