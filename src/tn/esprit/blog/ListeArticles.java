@@ -5,6 +5,20 @@
  */
 package tn.esprit.blog;
 
+import com.codename1.components.FloatingActionButton;
+import com.codename1.ui.Button;
+import static com.codename1.ui.Component.BOTTOM;
+import static com.codename1.ui.Component.CENTER;
+import com.codename1.ui.Container;
+import com.codename1.ui.FontImage;
+import com.codename1.ui.Form;
+import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
+import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.layouts.GridLayout;
+import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import tn.esprit.widgets.SideMenuBaseForm;
 
@@ -14,34 +28,26 @@ import tn.esprit.widgets.SideMenuBaseForm;
  */
 public class ListeArticles extends SideMenuBaseForm {
 
-    @Override
-    protected void showOtherForm(Resources res) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ListeArticles(Resources res) {
+        setupSideMenu(res);
+
     }
 
     @Override
-    protected void gotoProfile(Resources res) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setupSideMenu(Resources res) {
+        Toolbar b = getToolbar();
+        b.removeAll();
+        Button menuButton = new Button("Click me");
+        menuButton.setUIID("Title");
+        this.add(menuButton);
+        menuButton.addActionListener((e) -> b.openSideMenu());
+        FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
+        b.addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
+        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> showOtherForm(res));
+        b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
+        b.addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
+        b.addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
+
     }
 
-    @Override
-    protected void gotoStats(Resources res) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void gotoEvents(Resources res) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void gotoBlog(Resources res) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void gotoLogin(Resources res) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

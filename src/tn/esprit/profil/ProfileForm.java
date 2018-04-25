@@ -120,11 +120,7 @@ public class ProfileForm extends SideMenuBaseForm {
         //TODO: insetensi el form events here Bro: Houssem
     }
 
-    @Override
-    protected void gotoBlog(Resources res) {
-        //TODO: insetensi el form events here Bro: Amri
-    }
-
+   
     @Override
     protected void gotoLogin(Resources res) {
         new LoginForm(res).show();
