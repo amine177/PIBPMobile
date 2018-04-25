@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package tn.esprit.profil;
+import tn.esprit.widgets.SideMenuBaseForm;
 import com.codename1.charts.ChartComponent;
 import com.codename1.charts.models.XYMultipleSeriesDataset;
 import com.codename1.charts.models.XYSeries;

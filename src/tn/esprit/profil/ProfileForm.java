@@ -5,6 +5,7 @@
  */
 package tn.esprit.profil;
 
+import tn.esprit.widgets.SideMenuBaseForm;
 import com.codename1.components.FloatingActionButton;
 import com.codename1.components.MultiButton;
 import com.codename1.ui.Button;
