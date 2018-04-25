@@ -12,6 +12,9 @@ import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.util.Resources;
+import tn.esprit.blog.ListeArticles;
+import tn.esprit.profil.LoginForm;
+import tn.esprit.profil.ProfileForm;
 
 public abstract class SideMenuBaseForm extends Form {
 
@@ -44,21 +47,35 @@ public abstract class SideMenuBaseForm extends Form {
         getToolbar().addComponentToSideMenu(sidemenuTop);
         getToolbar().addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
         getToolbar().addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> gotoEvents(res));
-        getToolbar().addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> showOtherForm(res));
+        getToolbar().addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
         getToolbar().addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         getToolbar().addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
     }
 
-    protected abstract void showOtherForm(Resources res);
+    protected  void showOtherForm(Resources res) {
+        
+    };
 
-    protected abstract void gotoProfile(Resources res);
+    protected void gotoProfile(Resources res) {
+        new ProfileForm(res).show();
+    };
 
-    protected abstract void gotoStats(Resources res);
+    protected void gotoStats(Resources res) {
+        
+    };
 
-    protected abstract void gotoEvents(Resources res);
+    protected void gotoEvents(Resources res) {
+        
+    };
 
-    protected abstract void gotoBlog(Resources res);
+    protected void gotoBlog(Resources res) {
+        ListeArticles blog = new ListeArticles(res);
+        //blog.setupSideMenu(res);
+        blog.show();
+    };
 
-    protected abstract void gotoLogin(Resources res);
+    protected void gotoLogin(Resources res) {
+        new LoginForm(res).show();
+    };
 }
 
