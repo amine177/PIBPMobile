@@ -8,6 +8,7 @@ package tn.esprit.entite;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,8 +35,8 @@ public class Article implements Serializable {
 
 	private Date created;
 
-	private Collection<Tag> tagCollection;
-	private Collection<CommentaireB> commentaireBCollection;
+	private ArrayList<Tag> tagCollection;
+	private ArrayList<CommentaireB> commentaireBCollection;
 
 	public Article() {
 	}
@@ -119,19 +120,19 @@ public class Article implements Serializable {
 		this.created = created;
 	}
 
-	public Collection<Tag> getTagCollection() {
+	public ArrayList<Tag> getTagCollection() {
 		return tagCollection;
 	}
 
-	public void setTagCollection(Collection<Tag> tagCollection) {
+	public void setTagCollection(ArrayList<Tag> tagCollection) {
 		this.tagCollection = tagCollection;
 	}
 
-	public Collection<CommentaireB> getCommentaireBCollection() {
+	public ArrayList<CommentaireB> getCommentaireBCollection() {
 		return commentaireBCollection;
 	}
 
-	public void setCommentaireBCollection(Collection<CommentaireB> commentaireBCollection) {
+	public void setCommentaireBCollection(ArrayList<CommentaireB> commentaireBCollection) {
 		this.commentaireBCollection = commentaireBCollection;
 	}
 

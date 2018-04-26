@@ -20,6 +20,8 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import tn.esprit.entite.Tag;
+import tn.esprit.services.BlogService;
 import tn.esprit.widgets.SideMenuBaseForm;
 
 /**
@@ -41,6 +43,20 @@ public class ListeArticles extends SideMenuBaseForm {
         //c.setScrollableY(false);
         c.setScrollable(false);
         add(c);
+        
+        //Service testing
+        Button ret = new Button("retrieve");
+        ret.addActionListener((e)->{
+            BlogService bS = new BlogService();
+            Tag t = new Tag();
+            
+            t.setName("hellljklo");
+            System.out.println(bS.findByTag(t));
+           System.out.println(bS.findByText("thrd"));
+            System.out.println(bS.findAll());
+            //bS.find(3);
+        });
+        c.add(ret);
     }
 
     @Override
