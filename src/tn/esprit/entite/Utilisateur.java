@@ -45,17 +45,11 @@ public class Utilisateur   {
     private String roles;
     private String prenom;
 
-    private ArrayList<Evenements> evenements ;
-
-    public void setEvenements(ArrayList<Evenements> evenements) {
-        this.evenements = evenements;
-    }
+  
 
  
 
-    public ArrayList<Evenements> getEvenements() {
-        return evenements;
-    }
+    
 
 
     public String getPrenom() {
@@ -66,9 +60,9 @@ public class Utilisateur   {
         this.prenom = prenom;
     }
 
-    private ArrayList<Revue> revues;
+    
     private Etablissement etablissement;
-    private ArrayList<Experience> experiences;
+   
 
     public Utilisateur() {
     }
@@ -255,21 +249,7 @@ public class Utilisateur   {
         this.etablissement = etablissement;
     }
 
-    public ArrayList<Revue> getRevues() {
-        return revues;
-    }
-
-    public void setRevues(ArrayList<Revue> revues) {
-        this.revues = revues;
-    }
-
-    public ArrayList<Experience> getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(ArrayList<Experience> experiences) {
-        this.experiences = experiences;
-    }
+   
 
     @Override
     public int hashCode() {
@@ -309,9 +289,9 @@ public class Utilisateur   {
                 ", confirmationToken='" + confirmationToken + '\'' +
                 ", passwordRequestedAt=" + passwordRequestedAt +
                 ", roles='" + roles + '\'' +
-                ", revues=" + revues +
+                
                 ", etablissement=" + etablissement +
-                ", experiences=" + experiences +
+                
                 '}'+"\n";
     }
 

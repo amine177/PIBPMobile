@@ -15,7 +15,8 @@ import tn.esprit.entite.Utilisateur;
 public class UtilisateurService {
 
     public ArrayList<Utilisateur> selectAllEnabled() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+
     }
 
     

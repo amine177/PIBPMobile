@@ -29,9 +29,8 @@ public class Etablissement   {
     private String description;
     private String photo;
     private Date horraire_f;
-    private ArrayList<Revue> revues;
-    private ArrayList<Experience> experiences;
-    private ArrayList<Catalogue> catalogues;
+    
+    
 
     public Etablissement() {
     }
@@ -184,29 +183,9 @@ public class Etablissement   {
         this.horraire_f = horraire_f;
     }
 
-    public ArrayList<Revue> getRevues() {
-        return revues;
-    }
+    
 
-    public void setRevues(ArrayList<Revue> revues) {
-        this.revues = revues;
-    }
-
-    public ArrayList<Experience> getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(ArrayList<Experience> experiences) {
-        this.experiences = experiences;
-    }
-
-    public ArrayList<Catalogue> getCatalogues() {
-        return catalogues;
-    }
-
-    public void setCatalogues(ArrayList<Catalogue> catalogues) {
-        this.catalogues = catalogues;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -244,10 +223,7 @@ public class Etablissement   {
                 ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", photo='" + photo + '\'' +
-                ", horraire_f=" + horraire_f +
-                ", revues=" + revues +
-                ", experiences=" + experiences +
-                ", catalogues=" + catalogues +
+                ", horraire_f=" + horraire_f +              
                 '}';
     }
 }
