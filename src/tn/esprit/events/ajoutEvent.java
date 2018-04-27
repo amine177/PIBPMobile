@@ -38,12 +38,8 @@ import tn.esprit.widgets.SideMenuBaseForm;
  */
 public class ajoutEvent extends SideMenuBaseForm {
     
-        private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
-	        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-	        return sDate;
-	    }
-    
- public ajoutEvent(Resources res) throws ParseException {
+          
+ public ajoutEvent(Resources res)  {
    
         
  
@@ -58,6 +54,7 @@ public class ajoutEvent extends SideMenuBaseForm {
           Date l =datePicker.getDate() ;
            SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd");
             String ymd = ymdFormat.format(l);
+           
            ;
            
             
@@ -74,8 +71,8 @@ public class ajoutEvent extends SideMenuBaseForm {
                  }else{
            ToastBar.showMessage("SUCESS D'AJOUT !",FontImage.MATERIAL_DONE);
            EventService es = new EventService();
-           Evenements e = new Evenements( nom.getText(), convertUtilToSql(ymdFormat.parse(ymd)), adresse.getText());
-            es.ajoutE(e);
+          // Evenements e = new Evenements( nom.getText(), , adresse.getText());
+            //es.ajoutE(e);
                      
                  }
                
