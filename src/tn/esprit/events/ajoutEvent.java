@@ -1,6 +1,4 @@
 /*
-
-
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -10,17 +8,23 @@ package tn.esprit.events;
 import com.codename1.components.FloatingActionButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
+import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
-import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
 import java.util.ArrayList;
+import java.util.Date;
 import tn.esprit.entite.Evenements;
 import tn.esprit.profil.LoginForm;
 import tn.esprit.profil.ProfileForm;
@@ -32,22 +36,65 @@ import tn.esprit.widgets.SideMenuBaseForm;
  *
  * @author Nayer Jaber
  */
-public class ReadEvents extends SideMenuBaseForm{
-
-    public ReadEvents(Resources res) {
+public class ajoutEvent extends SideMenuBaseForm {
+    
+        private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+	        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+	        return sDate;
+	    }
+    
+ public ajoutEvent(Resources res) throws ParseException {
    
         
-          Form f = new Form(); 
-          SpanLabel lb = new SpanLabel("");
-          FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
-          fab.addActionListener(e -> gotoajoutEvent(res));
-          fab.bindFabToContainer( f.getContentPane());
-        EventService es = new EventService() ; 
-         ArrayList<Evenements> lis=es.getEvents();
-            lb.setText(lis.get(0).getNom());
-            add(lb);
-            add(f);
-    setupSideMenu(res);
+ 
+     
+            Form hi = new Form();
+     
+            Picker datePicker = new Picker();
+            datePicker.setType(Display.PICKER_TYPE_DATE);
+            datePicker.setDate(new Date());
+           System.out.println( datePicker.getDate());
+           
+          Date l =datePicker.getDate() ;
+           SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String ymd = ymdFormat.format(l);
+           ;
+           
+            
+           
+            TextField nom = new TextField("", "Nom de l'évenements", 20, TextArea.ANY);
+            TextField adresse = new TextField("", "Adresse", 100, TextArea.ANY);
+            Button ajout = new Button ("Ajout") ; 
+                   hi.add(nom).add(datePicker).add(ajout).add(adresse);
+                        ajout.addActionListener((i)->{
+                 if(nom.getText()==""){
+                    ToastBar.showMessage("SAISIR UN NOM!",FontImage.MATERIAL_WARNING);
+                 }else if (adresse.getText()==""){
+                     ToastBar.showMessage("SAISIR UNE ADRESSE!",FontImage.MATERIAL_WARNING);
+                 }else{
+           ToastBar.showMessage("SUCESS D'AJOUT !",FontImage.MATERIAL_DONE);
+           EventService es = new EventService();
+           Evenements e = new Evenements( nom.getText(), convertUtilToSql(ymdFormat.parse(ymd)), adresse.getText());
+            es.ajoutE(e);
+                     
+                 }
+               
+            }
+            
+            );
+                       add(hi);
+                       
+         
+        
+ 
+        
+       
+       
+       
+       
+       
+       
+        setupSideMenu(res);
         
         
     }
@@ -109,10 +156,6 @@ public class ReadEvents extends SideMenuBaseForm{
     @Override
     protected void gotoLogin(Resources res) {
         new LoginForm(res).show();
-    }
-
-    private void gotoajoutEvent(Resources res) {
-       new ajoutEvent(res).show();
     }
     
     

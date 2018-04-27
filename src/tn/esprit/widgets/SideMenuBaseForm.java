@@ -13,6 +13,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.util.Resources;
 import tn.esprit.blog.ListeArticles;
+import tn.esprit.events.ReadEvents;
 import tn.esprit.profil.LoginForm;
 import tn.esprit.profil.ProfileForm;
 
@@ -65,6 +66,7 @@ public abstract class SideMenuBaseForm extends Form {
     };
 
     protected void gotoEvents(Resources res) {
+           new ReadEvents(res).show();
         
     };
 
