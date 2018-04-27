@@ -5,10 +5,227 @@
  */
 package tn.esprit.services;
 
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+import tn.esprit.entite.Article;
+import tn.esprit.entite.CommentaireB;
+import tn.esprit.entite.Tag;
+
 /**
  *
  * @author aminos
  */
 public class BlogService {
-    
+
+    Article retF = null;
+    ArrayList<Article> retTgArt = null;
+    private ArrayList<Article> retTxtArt;
+    private ArrayList<Article> retAllArt;
+
+    public Article find(int id) {
+        String url = "http://127.0.0.1:8000/blog/lireArticle/";
+        ConnectionRequest cR;
+        cR = new ConnectionRequest(url + id);
+        cR.addArgument("mobile", "1");
+        cR.addResponseListener((e) -> {
+            try {
+                byte[] buff = cR.getResponseData();
+                InputStreamReader testStr = new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8");
+                
+                if (testStr.read() == 0)
+                    
+                    return ;
+                
+                Map<String, Object> resultat = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8"));                if (!resultat.isEmpty()) {
+                    retF = parseArticle(resultat);
+
+                    //System.out.println(resultat);
+                    //System.out.println(((ArrayList)resultat.get("commentaires")).get(0));
+                }
+            } catch (UnsupportedEncodingException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);ystem.out.println(resultat.get("id"));
+            } catch (IOException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(cR);
+        return retF;
+
+    }
+
+    public ArrayList<Article> findAll() {
+        String url = "http://127.0.0.1:8000/blog/listeArticles/";
+        ConnectionRequest cR;
+        cR = new ConnectionRequest(url);
+        cR.addArgument("mobile", "1");
+        cR.addArgument("all", "1");
+        cR.addResponseListener((e) -> {
+            try {
+                byte[] buff = cR.getResponseData();
+                InputStreamReader testStr = new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8");
+                
+                if (testStr.read() == 0)
+                    
+                    return ;
+                
+                Map<String, Object> resultat = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8"));                if (!resultat.isEmpty()) {
+
+                    retAllArt = parseArticles((ArrayList< Map< String, Object>>) resultat.get("root"));
+                    //System.out.println(resultat.get("root"));
+
+                    //System.out.println(resultat);
+                    //System.out.println(((ArrayList)resultat.get("commentaires")).get(0));
+                }
+            } catch (UnsupportedEncodingException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);ystem.out.println(resultat.get("id"));
+            } catch (IOException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(cR);
+        return retAllArt;
+    }
+
+    public ArrayList<Article> findByTag(Tag t) {
+        String url = "http://127.0.0.1:8000/blog/listeArticles/";
+        ConnectionRequest cR;
+        cR = new ConnectionRequest(url);
+        cR.addArgument("mobile", "1");
+        cR.addArgument("rech", "1");
+        cR.addArgument("tag", t.getName());
+        cR.addResponseListener((e) -> {
+            try {
+                byte[] buff = cR.getResponseData();
+                InputStreamReader testStr = new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8");
+                
+                if (testStr.read() == 0)
+                    
+                    return ;
+                
+                Map<String, Object> resultat = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8"));                if (!resultat.isEmpty()) {
+
+                    retTgArt = parseArticles((ArrayList< Map< String, Object>>) resultat.get("root"));
+                    //System.out.println(resultat.get("root"));
+
+                    //System.out.println(resultat);
+                    //System.out.println(((ArrayList)resultat.get("commentaires")).get(0));
+                }
+            } catch (UnsupportedEncodingException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);ystem.out.println(resultat.get("id"));
+            } catch (IOException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(cR);
+        return retTgArt;
+
+    }
+
+    public ArrayList<Article> findByText(String s) {
+        String url = "http://127.0.0.1:8000/blog/listeArticles/";
+        ConnectionRequest cR;
+        cR = new ConnectionRequest(url);
+        cR.addArgument("mobile", "1");
+        cR.addArgument("rech", "1");
+        cR.addArgument("text", s);
+        cR.addResponseListener((e) -> {
+            try {
+                byte[] buff = cR.getResponseData();
+                InputStreamReader testStr = new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8");
+                
+                if (testStr.read() == 0)
+                    
+                    return ;
+                
+                Map<String, Object> resultat = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(buff), "UTF-8"));
+                //System.out.println(resultat);
+                if (!resultat.isEmpty()) {
+
+                    retTxtArt = parseArticles((ArrayList< Map< String, Object>>) resultat.get("root"));
+                    //System.out.println(resultat.get("root"));
+
+                    //System.out.println(resultat);
+                    //System.out.println(((ArrayList)resultat.get("commentaires")).get(0));
+                }
+            } catch (UnsupportedEncodingException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);ystem.out.println(resultat.get("id"));
+            } catch (IOException ex) {
+                //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(cR);
+        return retTxtArt;
+
+    }
+
+    private ArrayList<CommentaireB> parseCommentaires(ArrayList<Map<String, Object>> obj, Article a) {
+        ArrayList<CommentaireB> ret = null;
+        if (obj.size() > 0) {
+            ret = new ArrayList<>();
+        }
+        for (Map<String, Object> e : obj) {
+            ret.add(parseCommentaire(e, a));
+        }
+        return ret;
+    }
+
+    private CommentaireB parseCommentaire(Map<String, Object> e, Article a) {
+        CommentaireB c = new CommentaireB();
+        c.setId(((Double) e.get("id")).intValue());
+        c.setAuteur(((Double) e.get("auteur")).intValue());
+        c.setAuteurn((String) e.get("auteurN"));
+        c.setText((String) e.get("text"));
+        c.setArticle(a);
+        return c;
+    }
+
+    private Article parseArticle(Map<String, Object> resultat) {
+        Article ret = new Article();
+        ret.setId(((Double) resultat.get("id")).intValue());
+        ret.setAuteurn((String) resultat.get("auteurN"));
+        ret.setAuteur(((Double) resultat.get("auteur")).intValue());
+        ret.setTexte((String) resultat.get("texte"));
+        ret.setTitre((String) resultat.get("titre"));
+        SimpleDateFormat dParser = new SimpleDateFormat("yy-mm-dd");
+        try {
+            ret.setCreated(dParser.parse((String) (resultat.get("created"))));
+            //System.out.println(ret.getCreated());
+        } catch (ParseException ex) {
+            //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (resultat.get("tags") != null) {
+            ArrayList<Tag> tags = new ArrayList<>();
+
+        }
+        if (resultat.get("commentaires") != null) {
+            ArrayList<CommentaireB> commentaires = new ArrayList<>();
+            //System.out.println(((ArrayList<CommentaireB>)resultat.get("commentaires")).size());
+            commentaires = parseCommentaires((ArrayList<Map<String, Object>>) resultat.get("commentaires"), ret);
+            ret.setCommentaireBCollection(commentaires);
+            //System.out.println(commentaires);
+        }
+
+        return ret;
+
+    }
+
+    private ArrayList<Article> parseArticles(ArrayList<Map<String, Object>> resultat) {
+        ArrayList<Article> ret = new ArrayList<>();
+        for (Map<String, Object> e : resultat) {
+            ret.add(parseArticle(e));
+        }
+        return ret;
+    }
+
 }
