@@ -21,6 +21,8 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import tn.esprit.events.ReadEvents;
+import tn.esprit.events.ajoutEvent;
 
 
 
@@ -115,9 +117,9 @@ public class ProfileForm extends SideMenuBaseForm {
         new StatsForm(res).show();
     }
 
-    @Override
+   @Override
     protected void gotoEvents(Resources res) {
-        //TODO: insetensi el form events here Bro: Houssem
+        new ReadEvents(res).show();
     }
 
    
