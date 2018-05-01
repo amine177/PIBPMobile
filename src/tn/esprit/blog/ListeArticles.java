@@ -40,18 +40,18 @@ import tn.esprit.widgets.SideMenuBaseForm;
  * @author aminos
  */
 public class ListeArticles extends SideMenuBaseForm {
-    
+
     Toolbar tb;
     Container listeContainer = new Container(BoxLayout.y());
+    Container searchTagContainer = new Container(BoxLayout.y());
+    Container wholeContainer = new Container(BoxLayout.y());
+    Resources res;
 
     //Container globalC = new Container(BoxLayout.y());
     public ListeArticles(Resources res) {
+        this.res = res;
         this.tb = getToolbar();
         setupSideMenu(res);
-        Container c = new Container(BoxLayout.y());
-        Label testLabel = new Label("Lemme smash!");
-//        c.add(tb);
-        c.add(testLabel);
 
         //Recovering objects
         EasyThread th = EasyThread.start("Hi");
@@ -59,9 +59,10 @@ public class ListeArticles extends SideMenuBaseForm {
             BlogService bS = new BlogService();
             return bS.findAll();
         });
+        /*
         for (Article a : articles) {
             Label titre = new Label(a.getTitre());
-            /*
+            
             titre.addPointerPressedListener((evt) -> {
                 Form article = new Form();
                 
@@ -99,38 +100,49 @@ public class ListeArticles extends SideMenuBaseForm {
                
                 article.show();
             });
-*/
+
             SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
             Label infos = new Label("Crée par " + a.getAuteurn()
                     + " le " + formatter.format(a.getCreated()));
             titre.getAllStyles().setFgColor(0x360ce4);
             infos.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
-            Container c1 = BoxLayout.encloseY(
+            Container articleInfoConainer = BoxLayout.encloseY(
                     titre,
                     infos
             );
-            c.add(c1);
+            listeContainer.add(articleInfoConainer);
         }
+         */
         //c.setScrollableX(false);
         //c.setScrollableY(false);
-        c.setScrollable(false);
-        add(c);
+        //c.setScrollable(false);
+        wholeContainer.add(searchTagContainer);
+        wholeContainer.add(listeContainer);
+        setArticles(articles);
+        //wholeContainer.add(listeContainer);
 
         //Service testing
         Button ret = new Button("retrieve");
+        wholeContainer.add(ret);
+        add(wholeContainer);
         ret.addActionListener((e) -> {
+            listeContainer.removeAll();
             BlogService bS = new BlogService();
             Tag t = new Tag();
-            
-            t.setName("hellljklo");
+            t.setName("come");
+            //System.out.println(bS.findByTag(t));
+
+            setArticles(bS.findByTag(t));
+            /*
             System.out.println(bS.findByTag(t));
             System.out.println(bS.findByText("thrd"));
             System.out.println(bS.findAll());
+             */
             //bS.find(3);
         });
-        c.add(ret);
+
     }
-    
+
     @Override
     public void setupSideMenu(Resources res) {
         Toolbar b = getToolbar();
@@ -140,7 +152,7 @@ public class ListeArticles extends SideMenuBaseForm {
         Container titleCmp = BoxLayout.encloseY(
                 FlowLayout.encloseIn(menuButton)
         );
-        
+
         titleCmp.setScrollableY(false);
         titleCmp.setScrollableX(false);
         // AJOUTER le container du BOUTTON OU toolbar
@@ -155,7 +167,32 @@ public class ListeArticles extends SideMenuBaseForm {
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
         b.addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         b.addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
-        
+
     }
-    
+
+    public void setArticles(ArrayList<Article> articles) {
+        //System.out.println(articles);
+
+        listeContainer.removeAll();
+
+        for (Article article : articles) {
+            Label titre = new Label(article.getTitre());
+            titre.addPointerPressedListener((evt) -> {
+                LireArticle lireArticle = new LireArticle(res, article);
+                lireArticle.show();
+                
+            });
+
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+            Label informations = new Label("Crée par " + article.getAuteurn()
+                    + " le " + formatter.format(article.getCreated()));
+            //System.out.println(article);
+            Container articleInfoContainer = new Container(BoxLayout.y());
+            articleInfoContainer.add(titre);
+            articleInfoContainer.add(informations);
+            listeContainer.add(articleInfoContainer);
+        }
+
+        repaint();
+    }
 }
