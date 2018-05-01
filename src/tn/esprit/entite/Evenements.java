@@ -23,7 +23,7 @@ public class Evenements   {
     private String lieu;   
     private int prix;
     private String brochure;   
-    private Date dateF;  
+    private String dateF;  
     private String adresse;    
     private String tel;
     private Integer rating;
@@ -59,7 +59,7 @@ public class Evenements   {
        
    }
 
-    public Evenements(Integer id, String nom, String description, Date date, int nbPlace, String lieu, int prix, String brochure, Date dateF, String adresse, String tel,String type ) {
+    public Evenements(Integer id, String nom, String description, Date date, int nbPlace, String lieu, int prix, String brochure, String dateF, String adresse, String tel,String type ) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -146,11 +146,11 @@ public class Evenements   {
         this.brochure = brochure;
     }
 
-    public Date getDateF() {
+    public String getDateF() {
         return dateF;
     }
 
-    public void setDateF(Date dateF) {
+    public void setDateF(String dateF) {
         this.dateF = dateF;
     }
 
