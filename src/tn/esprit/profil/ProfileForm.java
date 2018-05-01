@@ -21,6 +21,9 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import java.util.ArrayList;
+import tn.esprit.entite.Utilisateur;
+import tn.esprit.services.UtilisateurService;
 
 
 
@@ -66,9 +69,11 @@ public class ProfileForm extends SideMenuBaseForm {
         fab.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
         fab.getAllStyles().setMargin(BOTTOM, completedTasks.getPreferredH() - fab.getPreferredH() / 2);
         tb.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));
-
-        add(new Label("Mes expériences", "TodayTitle"));
-
+        UtilisateurService us=new UtilisateurService();
+        ArrayList<Utilisateur> useeers = us.selectAllEnabled();
+        
+        add(new Label(useeers.get(0).getId().toString(), "TodayTitle"));
+        
         //FontImage arrowDown = FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN, "Label", 3);
 
         setupSideMenu(res);
