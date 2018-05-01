@@ -16,23 +16,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import tn.esprit.entite.Etablissement;
 import tn.esprit.entite.Utilisateur;
 
 /**
  *
  * @author ASUS
  */
-public class UtilisateurService {
+public class EtablissementService {
     ConnectionRequest con;
-    public  ArrayList<Utilisateur> selectAllEnabled() {
-        String strUrl="http://127.0.0.1:8000/utilisateur/alljson";
-        ArrayList<Utilisateur> lstUsers = new ArrayList<>();
-        System.out.println("Service Utilisateur");
+    public  ArrayList<Etablissement> selectAllEnabled() {
+        String strUrl="http://127.0.0.1:8000/etablissement/alljson";
+        ArrayList<Etablissement> lstEtabs = new ArrayList<>();
+        System.out.println("entreeeeeeeeeeeeeeeeer");
         try {
-           
-                 con = new ConnectionRequest(strUrl);                
+            System.out.println("avvvvvvvvvvvvvvvvvvvvvvvvv");
+                 con = new ConnectionRequest(strUrl);
+                 System.out.println("con = new ConnectionRequest(strUrl) passssssssssssssssser ");
                  con.setPost(false);        
-                con.addResponseListener(new ActionListener<NetworkEvent>() {
+            con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 //listTasks = getListTask(new String(con.getResponseData()));
@@ -40,12 +42,12 @@ public class UtilisateurService {
                 
                 try {
                     //renvoi une map avec clé = root et valeur le reste
-                    Map<String, Object> users = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
-                  
-                    List<Map<String, Object>> list = (List<Map<String, Object>>) users.get("root");
+                    Map<String, Object> etabs = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    System.out.println("roooooot:" +etabs.get("root"));
+                    List<Map<String, Object>> list = (List<Map<String, Object>>) etabs.get("root");
                     for (Map<String, Object> obj : list) {
-                        Utilisateur user = new Utilisateur(obj);                        
-                        lstUsers.add(user);                  
+                        Etablissement etab = new Etablissement(obj);                      
+                        lstEtabs.add(etab);                  
                     }
                 } catch (IOException ex) {
                     System.out.println("exxxx");
@@ -53,12 +55,15 @@ public class UtilisateurService {
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
-            System.out.println(lstUsers);
-        return lstUsers;
+            System.out.println(lstEtabs);
+        return lstEtabs;
         } catch (Exception err) {
             
                   Log.e(err);
             return null;
-        }               
-    }   
+        }       
+        
+    }
+
+    
 }
