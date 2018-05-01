@@ -6,6 +6,7 @@
 package tn.esprit.entite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,20 +37,15 @@ public class Utilisateur   {
     private String usernameCanonical;
     private String email;
     private String emailCanonical;
-    private short enabled;
+    private boolean enabled;
     private String salt;
     private String password;
     private Date lastLogin;
     private String confirmationToken;
     private Date passwordRequestedAt;
     private String roles;
-    private String prenom;
-
-  
-
- 
-
-    
+    private String prenom;   
+    private Etablissement etablissement;
 
 
     public String getPrenom() {
@@ -60,9 +56,32 @@ public class Utilisateur   {
         this.prenom = prenom;
     }
 
-    
-    private Etablissement etablissement;
-   
+    public Utilisateur(Map<String, Object> obj){
+        Float f= Float.parseFloat(obj.get("id").toString());
+        this.id = f.intValue(); 
+        if(obj.get("photoProfil")!=null)
+        this.photoProfil = obj.get("photoProfil").toString();
+        if(obj.get("langitude")!=null)
+        this.langitude = Double.parseDouble(obj.get("langitude").toString());       
+        if(obj.get("latitude")!=null)
+        this.latitude = Double.parseDouble(obj.get("latitude").toString());
+        this.username = obj.get("username").toString();
+        this.usernameCanonical = obj.get("usernameCanonical").toString();             
+        this.email = obj.get("email").toString();
+        this.emailCanonical = obj.get("emailCanonical").toString();   
+        
+        this.enabled = Boolean.parseBoolean(obj.get("enabled").toString());//.booleanValue();    
+        this.salt = obj.get("salt").toString();
+        this.password = obj.get("password").toString();
+        // TODO : il faut prendre le role exacte POUR le moment que le client va utiliser l'app mobile
+        java.util.List<String> arr = (java.util.List<String>)obj.get("roles");
+        this.roles=arr.get(0);
+       // this.roles = "ROLE_CLIENT";
+        if(obj.get("prenom")!=null)
+        this.prenom = obj.get("prenom").toString();
+        // TODO : change etablissement by the real etab from the map
+        this.etablissement = null;
+    }   
 
     public Utilisateur() {
     }
@@ -70,7 +89,7 @@ public class Utilisateur   {
         this.id=id;
     }
 
-    public Utilisateur(Integer id, String photoProfil, Double langitude, Double latitude, String username, String usernameCanonical, String email, String emailCanonical, short enabled, String salt, String password, String roles) {
+    public Utilisateur(Integer id, String photoProfil, Double langitude, Double latitude, String username, String usernameCanonical, String email, String emailCanonical, boolean enabled, String salt, String password, String roles) {
         this.id = id;
         this.photoProfil = photoProfil;
         this.langitude = langitude;
@@ -84,7 +103,7 @@ public class Utilisateur   {
         this.password = password;
         this.roles = roles;
     }
-    public Utilisateur(String photoProfil, Double langitude, Double latitude, String username, String usernameCanonical, String email, String emailCanonical, short enabled, String salt, String password/*, String roles*/) {
+    public Utilisateur(String photoProfil, Double langitude, Double latitude, String username, String usernameCanonical, String email, String emailCanonical, boolean enabled, String salt, String password/*, String roles*/) {
         this.photoProfil = photoProfil;
         this.langitude = langitude;
         this.latitude = latitude;
@@ -98,7 +117,7 @@ public class Utilisateur   {
         this.roles = roles;
     }
 
-    public Utilisateur(Integer id, String photoProfil, Double langitude, Double latitude, int etablissement_id, String username, String usernameCanonical, String email, String emailCanonical, short enabled, String salt, String password, Date lastLogin, String confirmationToken, Date passwordRequestedAt, String roles,String prenom) {
+    public Utilisateur(Integer id, String photoProfil, Double langitude, Double latitude, int etablissement_id, String username, String usernameCanonical, String email, String emailCanonical, boolean enabled, String salt, String password, Date lastLogin, String confirmationToken, Date passwordRequestedAt, String roles,String prenom) {
         this.id = id;
         this.photoProfil = photoProfil;
         this.langitude = langitude;
@@ -183,11 +202,11 @@ public class Utilisateur   {
         this.emailCanonical = emailCanonical;
     }
 
-    public short getEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(short enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
