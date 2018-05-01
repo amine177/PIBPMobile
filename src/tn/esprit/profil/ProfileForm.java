@@ -120,9 +120,9 @@ public class ProfileForm extends SideMenuBaseForm {
         new StatsForm(res).show();
     }
 
-    @Override
+   @Override
     protected void gotoEvents(Resources res) {
-        //TODO: insetensi el form events here Bro: Houssem
+        new ReadEvents(res).show();
     }
 
    

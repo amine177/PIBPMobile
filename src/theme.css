@@ -1,0 +1,10 @@
+@media cn1 {
+    
+    signup  {
+        cn1-derive  : Form ;
+    }
+    name {
+        font-size: 45 ;
+        color:brown;
+    }
+}
