@@ -23,6 +23,7 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import java.util.ArrayList;
 import tn.esprit.entite.Utilisateur;
+import tn.esprit.events.ReadEvents;
 import tn.esprit.services.UtilisateurService;
 
 
@@ -70,9 +71,9 @@ public class ProfileForm extends SideMenuBaseForm {
         fab.getAllStyles().setMargin(BOTTOM, completedTasks.getPreferredH() - fab.getPreferredH() / 2);
         tb.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));
         UtilisateurService us=new UtilisateurService();
-        ArrayList<Utilisateur> useeers = us.selectAllEnabled();
+//        ArrayList<Utilisateur> useeers = us.selectAllEnabled();
         
-        add(new Label(useeers.get(0).getId().toString(), "TodayTitle"));
+  //      add(new Label(useeers.get(0).getId().toString(), "TodayTitle"));
         
         //FontImage arrowDown = FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN, "Label", 3);
 

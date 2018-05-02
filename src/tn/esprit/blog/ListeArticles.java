@@ -19,7 +19,9 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextArea;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.events.DataChangedListener;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -43,7 +45,7 @@ public class ListeArticles extends SideMenuBaseForm {
 
     Toolbar tb;
     Container listeContainer = new Container(BoxLayout.y());
-    Container searchTagContainer = new Container(BoxLayout.y());
+    Container searchContainer = new Container(BoxLayout.x());
     Container wholeContainer = new Container(BoxLayout.y());
     Resources res;
 
@@ -116,7 +118,17 @@ public class ListeArticles extends SideMenuBaseForm {
         //c.setScrollableX(false);
         //c.setScrollableY(false);
         //c.setScrollable(false);
-        wholeContainer.add(searchTagContainer);
+        
+        Label srchText = new Label("Recherche:");
+        TextField searchFiled = new TextField("", "rechercher...");
+        searchFiled.addActionListener((evt)->{
+            BlogService bS = new BlogService();
+            setArticles(bS.findByText(searchFiled.getText()));
+        });
+        searchContainer.add(srchText);
+        searchContainer.add(searchFiled);
+        wholeContainer.add(searchContainer);
+        
         wholeContainer.add(listeContainer);
         setArticles(articles);
         //wholeContainer.add(listeContainer);

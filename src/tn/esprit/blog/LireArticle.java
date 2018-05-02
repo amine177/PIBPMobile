@@ -19,6 +19,8 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
 import tn.esprit.entite.Article;
 import tn.esprit.entite.CommentaireB;
+import tn.esprit.entite.Tag;
+import tn.esprit.services.BlogService;
 import tn.esprit.widgets.SideMenuBaseForm;
 
 /**
@@ -35,6 +37,9 @@ public class LireArticle extends SideMenuBaseForm {
     Container wholeContainer = new Container(BoxLayout.y());
     TextArea commentaireTextArea = new TextArea();
     Article article;
+    private boolean modifying;
+    private CommentaireB commentaireModified = null;
+    private Label commentaireModifiedT;
 
     public LireArticle(Resources res, Article article) {
         this.res = res;
@@ -77,7 +82,6 @@ public class LireArticle extends SideMenuBaseForm {
     }
 
     public void setArticle(Article article) {
-        
 
         articleContainer.removeAll();
         commentairesContainer.removeAll();
@@ -86,29 +90,121 @@ public class LireArticle extends SideMenuBaseForm {
         browser.setScrollableY(true);
         browser.setPage(article.getTexte(), "");
         articleContainer.add(new Label(article.getTitre()));
+        int i = 1;
+        Container tagContainer = new Container();
+        tagContainer.setLayout(new FlowLayout());
+        if (article.getTagCollection().size() > 0) {
+            Label tg = new Label("tags:");
+            tg.getAllStyles().setFont(Font.createSystemFont(Font.FACE_MONOSPACE, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
+            tagContainer.add(tg);
+            for (Tag tag : article.getTagCollection()) {
+
+                System.out.println(tag + " " + article.getTagCollection().indexOf(tag));
+                Label tagLabel = new Label(tag.getName());
+                tagLabel.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                tagLabel.addPointerPressedListener((evt) -> {
+                    ListeArticles blog = new ListeArticles(res);
+                    BlogService bS = new BlogService();
+
+                    blog.setArticles(bS.findByTag(tag));
+                    blog.show();
+                });
+                tagContainer.add(tagLabel);
+
+            }
+        }
+
+        articleContainer.add(tagContainer);
         articleContainer.add(browser);
         commentairesContainer.add(new Label("Ajouter un commentaire:"));
         commentaireTextArea.setPreferredH(100);
         commentairesContainer.add(commentaireTextArea);
-        Button commenterButton = new Button("Commenter") ;
+        Button commenterButton = new Button("Commenter");
         //bind actions to comment
         commentairesContainer.add(commenterButton);
-        
+        commenterButton.addActionListener((evt) -> {
+            if (commentaireModified != null && commentaireModifiedT != null) {
+                System.out.println("modifying!");
+                BlogService bS = new BlogService();
+                commentaireModified.setText(commentaireTextArea.getText());
+                bS.modifierCommentaire(commentaireModified);
+                commentaireModifiedT.setText(commentaireTextArea.getText());
+                commentaireModified = null;
+                commentaireModifiedT = null;
+                commentaireTextArea.setText("");
+                commentaireTextArea.setHint("Ajouter un commentaire...");
+            } else {
+                BlogService bS = new BlogService();
+                CommentaireB commentaire = new CommentaireB(commentaireTextArea.getText(), "admin", 34);
+                commentaire.setId(-1);
+
+                CommentaireB returned = bS.ajouterCommentaireB(article, commentaire);
+                if (returned != null) {
+                    Container commentC = new Container(BoxLayout.y());
+                    Container modSupC = new Container(BoxLayout.x());
+                    commentC.add(new Label(commentaire.getAuteurn()));
+
+                    Label texteC = new Label(commentaire.getText());
+                      Label modifier = new Label("Modifier");
+                Label supprimer = new Label("Supprimer");
+                modifier.addPointerPressedListener((evt1) -> {
+                    commentaireTextArea.setText(commentaire.getText());
+                    commentaireModified = commentaire;
+                    commentaireModifiedT = texteC;
+                });
+                supprimer.addPointerPressedListener((evt2) -> {
+                    BlogService bS1 = new BlogService();
+                    if (bS1.supprimerCommentiareB(commentaire.getId())) {
+                        commentC.remove();
+                        repaint();
+                    }
+                });
+                modSupC.add(modifier);
+                modSupC.add(supprimer);
+                commentC.add(modSupC);
+                    texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+                    commentC.add(texteC);
+                    commentairesContainer.add(commentC);
+                    commentaireTextArea.setText("");
+                    commentaireTextArea.setHint("Ajouter un commentaire...");
+                    repaint();
+                }
+            }
+        });
         if (article.getCommentaireBCollection() != null && !article.getCommentaireBCollection().isEmpty()) {
             for (CommentaireB commentaire : article.getCommentaireBCollection()) {
                 Container commentC = new Container(BoxLayout.y());
-
+                Container modSupC = new Container(BoxLayout.x());
                 commentC.add(new Label(commentaire.getAuteurn()));
 
                 Label texteC = new Label(commentaire.getText());
+
+                Label modifier = new Label("Modifier");
+                Label supprimer = new Label("Supprimer");
+                modifier.addPointerPressedListener((evt) -> {
+                    commentaireTextArea.setText(commentaire.getText());
+                    commentaireModified = commentaire;
+                    commentaireModifiedT = texteC;
+                });
+                supprimer.addPointerPressedListener((evt) -> {
+                    BlogService bS = new BlogService();
+                    if (bS.supprimerCommentiareB(commentaire.getId())) {
+                        commentC.remove();
+                        repaint();
+                    }
+                });
+                modSupC.add(modifier);
+                modSupC.add(supprimer);
+                commentC.add(modSupC);
                 texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
                 commentC.add(texteC);
                 commentairesContainer.add(commentC);
+                // TO REMOVE
+                //commentaireModified = commentaire;
             }
         }
 
-        
         repaint();
-       
+
     }
 }
