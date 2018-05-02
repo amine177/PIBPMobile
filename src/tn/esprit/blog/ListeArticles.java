@@ -118,17 +118,21 @@ public class ListeArticles extends SideMenuBaseForm {
         //c.setScrollableX(false);
         //c.setScrollableY(false);
         //c.setScrollable(false);
-        
+
         Label srchText = new Label("Recherche:");
         TextField searchFiled = new TextField("", "rechercher...");
-        searchFiled.addActionListener((evt)->{
+        searchFiled.addActionListener((evt) -> {
             BlogService bS = new BlogService();
-            setArticles(bS.findByText(searchFiled.getText()));
+            if (!searchFiled.getText().equals("")) {
+                setArticles(bS.findByText(searchFiled.getText()));
+            } else {
+                setArticles(bS.findAll());
+            }
         });
         searchContainer.add(srchText);
         searchContainer.add(searchFiled);
         wholeContainer.add(searchContainer);
-        
+
         wholeContainer.add(listeContainer);
         setArticles(articles);
         //wholeContainer.add(listeContainer);
@@ -192,7 +196,7 @@ public class ListeArticles extends SideMenuBaseForm {
             titre.addPointerPressedListener((evt) -> {
                 LireArticle lireArticle = new LireArticle(res, article);
                 lireArticle.show();
-                
+
             });
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
