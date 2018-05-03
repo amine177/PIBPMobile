@@ -5,6 +5,7 @@
  */
 package tn.esprit.blog;
 
+import com.codename1.io.FileSystemStorage;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -22,6 +23,8 @@ import tn.esprit.entite.CommentaireB;
 import tn.esprit.entite.Tag;
 import tn.esprit.services.BlogService;
 import tn.esprit.widgets.SideMenuBaseForm;
+import com.codename1.io.Util;
+import com.codename1.ui.Dialog;
 
 /**
  *
@@ -90,6 +93,13 @@ public class LireArticle extends SideMenuBaseForm {
         browser.setScrollableY(true);
         browser.setPage(article.getTexte(), "");
         articleContainer.add(new Label(article.getTitre()));
+        Button pdfBut = new Button("Exporter PDF");
+        pdfBut.addActionListener((evt)->{
+            String filename = article.getId()+""+article.getAuteurn()+".pdf";
+            getFile(filename, article.getId());
+            Dialog.show("Succes","Fichier enregistré en " + FileSystemStorage.getInstance().getAppHomePath() + filename, "OK", null );
+        });
+             articleContainer.add(pdfBut);
         int i = 1;
         Container tagContainer = new Container();
         tagContainer.setLayout(new FlowLayout());
@@ -207,4 +217,13 @@ public class LireArticle extends SideMenuBaseForm {
         repaint();
 
     }
+    
+    public void getFile(String filename, int id){
+
+    if(filename==null||filename.length()<1)
+        return;
+
+    String fullPathToFile = FileSystemStorage.getInstance().getAppHomePath()+filename;
+    Util.downloadUrlToFileSystemInBackground("http://127.0.0.1:8000/blog/pdf/"+id, fullPathToFile);
+}
 }
