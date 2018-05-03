@@ -92,7 +92,9 @@ public class LireArticle extends SideMenuBaseForm {
         browser.setPreferredSize(new Dimension(300, 300));
         browser.setScrollableY(true);
         browser.setPage(article.getTexte(), "");
-        articleContainer.add(new Label(article.getTitre()));
+        Label titreA = new Label(article.getTitre());
+        titreA.getAllStyles().setFgColor(0x000000);
+        articleContainer.add(titreA);
         Button pdfBut = new Button("Exporter PDF");
         pdfBut.addActionListener((evt)->{
             String filename = article.getId()+""+article.getAuteurn()+".pdf";
@@ -112,6 +114,7 @@ public class LireArticle extends SideMenuBaseForm {
                 System.out.println(tag + " " + article.getTagCollection().indexOf(tag));
                 Label tagLabel = new Label(tag.getName());
                 tagLabel.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                tagLabel.getAllStyles().setFgColor(0xFA023C);
                 tagLabel.addPointerPressedListener((evt) -> {
                     ListeArticles blog = new ListeArticles(res);
                     BlogService bS = new BlogService();
@@ -190,7 +193,11 @@ public class LireArticle extends SideMenuBaseForm {
                 Label texteC = new Label(commentaire.getText());
 
                 Label modifier = new Label("Modifier");
+                modifier.getAllStyles().setFgColor(0x00bfff);
+                modifier.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
                 Label supprimer = new Label("Supprimer");
+                supprimer.getAllStyles().setFgColor(0xFA023C);
+                supprimer.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
                 modifier.addPointerPressedListener((evt) -> {
                     commentaireTextArea.setText(commentaire.getText());
                     commentaireModified = commentaire;
@@ -207,6 +214,7 @@ public class LireArticle extends SideMenuBaseForm {
                 modSupC.add(supprimer);
                 commentC.add(modSupC);
                 texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+                texteC.getAllStyles().setFgColor(0x000000);
                 commentC.add(texteC);
                 commentairesContainer.add(commentC);
                 // TO REMOVE
