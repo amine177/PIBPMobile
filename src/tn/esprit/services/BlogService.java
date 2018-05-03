@@ -35,6 +35,8 @@ public class BlogService {
     private String retSupp;
 
     public Article find(int id) {
+        retF = null;
+        
         String url = "http://127.0.0.1:8000/blog/lireArticle/";
         ConnectionRequest cR;
         cR = new ConnectionRequest(url + id);
@@ -67,6 +69,7 @@ public class BlogService {
     }
 
     public ArrayList<Article> findAll() {
+        retAllArt = new ArrayList<>();
         String url = "http://127.0.0.1:8000/blog/listeArticles/";
         ConnectionRequest cR;
         cR = new ConnectionRequest(url);
@@ -101,6 +104,7 @@ public class BlogService {
     }
 
     public ArrayList<Article> findByTag(Tag t) {
+        retTgArt = new ArrayList<>();
         String url = "http://127.0.0.1:8000/blog/listeArticles/";
         ConnectionRequest cR;
         cR = new ConnectionRequest(url);
@@ -137,6 +141,7 @@ public class BlogService {
     }
 
     public boolean supprimerCommentiareB(int id) {
+        retSupp = null;
         String url = "http://127.0.0.1:8000/blog/supprimerC/";
         ConnectionRequest cR;
         cR = new ConnectionRequest(url + id);
@@ -213,6 +218,7 @@ public class BlogService {
 
     }
     public boolean modifierCommentaire(CommentaireB commentaire) {
+        retCModified = null;
         String url = "http://127.0.0.1:8000/blog/modifierC/";
         ConnectionRequest cR;
         cR = new ConnectionRequest(url + commentaire.getId());
@@ -242,6 +248,7 @@ public class BlogService {
     }
 
     public ArrayList<Article> findByText(String s) {
+        retTxtArt = new ArrayList<>();
         String url = "http://127.0.0.1:8000/blog/listeArticles/";
         ConnectionRequest cR;
         cR = new ConnectionRequest(url);

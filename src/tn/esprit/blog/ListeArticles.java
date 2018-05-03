@@ -14,6 +14,8 @@ import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -61,6 +63,8 @@ public class ListeArticles extends SideMenuBaseForm {
             BlogService bS = new BlogService();
             return bS.findAll();
         });
+
+
         /*
         for (Article a : articles) {
             Label titre = new Label(a.getTitre());
