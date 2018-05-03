@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package tn.esprit.widgets;
+import com.codename1.ui.Command;
 import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -16,6 +17,7 @@ import java.io.IOException;
 
 import tn.esprit.blog.ListeArticles;
 import tn.esprit.events.ReadEvents;
+import tn.esprit.profil.BonPlan;
 import tn.esprit.profil.LoginForm;
 import tn.esprit.profil.ProfileForm;
 
@@ -56,6 +58,7 @@ public abstract class SideMenuBaseForm extends Form {
             }
         });
         getToolbar().addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
+        getToolbar().addMaterialCommandToSideMenu("  BonPlan", FontImage.MATERIAL_SEARCH, e -> gotoBonPlan(res));
         getToolbar().addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         getToolbar().addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
     }
@@ -86,5 +89,9 @@ public abstract class SideMenuBaseForm extends Form {
     protected void gotoLogin(Resources res) {
         new LoginForm(res).show();
     };
+
+    private void gotoBonPlan(Resources res) {
+        new BonPlan(res).show();
+    }
 }
 

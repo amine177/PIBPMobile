@@ -62,6 +62,7 @@ public class ajoutEvent extends SideMenuBaseForm {
           
             Date d = datePicker.getDate();
             System.out.println(d);
+
              SimpleDateFormat mdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             String md = mdFormat.format(d);
             e.setDateF(md);
@@ -94,7 +95,9 @@ public class ajoutEvent extends SideMenuBaseForm {
             TextField adresse = new TextField("", "Adresse", 100, TextArea.ANY);
             Toolbar.setGlobalToolbar(true);
             Form c = new Form("Rounder", new BorderLayout());
+
             e.setBrochure("");
+
              Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
             Image camera = FontImage.createMaterial(FontImage.MATERIAL_CAMERA, s);
          String ch = "" ;

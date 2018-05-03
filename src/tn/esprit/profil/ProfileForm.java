@@ -21,8 +21,16 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+<<<<<<< HEAD
 import java.io.IOException;
 import tn.esprit.events.ReadEvents;
+=======
+import java.util.ArrayList;
+import tn.esprit.entite.Etablissement;
+import tn.esprit.entite.Utilisateur;
+import tn.esprit.services.EtablissementService;
+import tn.esprit.services.UtilisateurService;
+>>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
 
 
 
@@ -37,7 +45,7 @@ public class ProfileForm extends SideMenuBaseForm {
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
         Label profilePicLabel = new Label(profilePic, "ProfilePicTitle");
         profilePicLabel.setMask(mask.createMask());
-        Button menuButton = new Button("Click me");
+        Button menuButton = new Button("");
         menuButton.setUIID("Title");
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         menuButton.addActionListener(e -> getToolbar().openSideMenu());
@@ -67,10 +75,9 @@ public class ProfileForm extends SideMenuBaseForm {
         FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_VISIBILITY);
         fab.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
         fab.getAllStyles().setMargin(BOTTOM, completedTasks.getPreferredH() - fab.getPreferredH() / 2);
-        tb.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));
-
+        tb.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));              
         add(new Label("Mes expériences", "TodayTitle"));
-
+        
         //FontImage arrowDown = FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN, "Label", 3);
 
         setupSideMenu(res);
@@ -118,8 +125,13 @@ public class ProfileForm extends SideMenuBaseForm {
     }
 
    @Override
+<<<<<<< HEAD
     protected void gotoEvents(Resources res) throws IOException {
         new ReadEvents(res).show();
+=======
+    protected void gotoEvents(Resources res) {
+        //new ReadEvents(res).show();
+>>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
     }
 
    

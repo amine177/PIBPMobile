@@ -16,12 +16,18 @@ import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
+<<<<<<< HEAD
 import com.codename1.ui.EncodedImage;
+=======
+>>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
+<<<<<<< HEAD
 import com.codename1.ui.InfiniteContainer;
+=======
+>>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
@@ -54,6 +60,7 @@ public class ReadEvents extends SideMenuBaseForm{
           Form fo = new Form("Basic List",new BorderLayout());
              FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
           fab.addActionListener(e -> gotoajoutEvent(res));
+<<<<<<< HEAD
           fab.bindFabToContainer( fo.getContentPane());
         
    
@@ -92,6 +99,14 @@ public class ReadEvents extends SideMenuBaseForm{
     
   
         add(f);
+=======
+          fab.bindFabToContainer( f.getContentPane());
+        EventService es = new EventService() ; 
+         ArrayList<Evenements> lis=es.getEvents();
+            lb.setText(lis.get(0).getNom());
+            add(lb);
+            add(f);
+>>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
 
 
   

@@ -1,4 +1,5 @@
 *.jar
+.cn1
 nbproject/private/
 build/
 nbbuild/

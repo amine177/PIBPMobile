@@ -4,16 +4,20 @@
  * and open the template in the editor.
  */
 package tn.esprit.entite;
+import com.codename1.l10n.DateFormat;
+import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 /**
  *
  * @author ASUS
  */
 
-public class Etablissement   {
+public class Etablissement  implements Serializable{
 
     private Integer id;
     private String nom;
@@ -49,23 +53,47 @@ public class Etablissement   {
         this.description = description;
         this.photo = photo;
     }
-    
-    public Etablissement(Integer id, String nom, String adresse, String gouvernorat, String ville, Double note, Date horraire, Double longitude, Double latitude, Boolean estActive, String description, String type, String photo,Date horrairef) {
-        this.id = id;
-        this.nom = nom;
-        this.adresse = adresse;
-        this.gouvernorat = gouvernorat;
-        this.ville = ville;
-        this.note = note;
-        this.horraire = horraire;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.estActive = estActive;
-        this.description = description;
-        this.type = type;
-        this.photo = photo;
-        this.horraire_f=horrairef;
+    //parser
+    public Etablissement(Map<String, Object> obj) {
+        Float f= Float.parseFloat(obj.get("id").toString());
+        this.id = f.intValue();  
+        if(obj.get("nom")!=null)
+        this.nom = obj.get("nom").toString();
+        if(obj.get("adresse")!=null)
+        this.adresse = obj.get("adresse").toString();
+        if(obj.get("gouvernorat")!=null)
+        this.gouvernorat = obj.get("gouvernorat").toString();
+        if(obj.get("ville")!=null)
+        this.ville = obj.get("ville").toString();
+        if(obj.get("note")!=null)
+        this.note = Double.parseDouble(obj.get("note").toString());
+        /*DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            this.horraire =(Date)formatter.parse(obj.get("horraire").toString());
+        } catch (ParseException ex) {
+           System.out.println(ex.getMessage());
+        }*/
+        this.horraire=new Date();
+        if(obj.get("longitude")!=null)
+        this.longitude = Double.parseDouble(obj.get("longitude").toString());
+        if(obj.get("latitude")!=null)
+        this.latitude = Double.parseDouble(obj.get("latitude").toString());
+        this.estActive =  Boolean.parseBoolean(obj.get("estActive").toString());//.booleanValue();   
+        if(obj.get("description")!=null)
+        this.description = obj.get("description").toString();
+        if(obj.get("type")!=null)
+        this.type = obj.get("type").toString();
+        if(obj.get("photo")!=null)
+        this.photo = obj.get("photo").toString();       
+        /*try {
+            this.horraire_f =(Date)formatter.parse(obj.get("horraire_f").toString());
+        } catch (ParseException ex) {
+            System.out.println(ex.getMessage());
+        }*/
+        this.horraire_f=new Date();
     }
+
+    
     
     public Etablissement(Integer id) {
         this.id = id;
