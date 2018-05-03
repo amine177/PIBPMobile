@@ -202,11 +202,6 @@ public class ajoutEvent extends SideMenuBaseForm {
     }
 
     @Override
-    protected void gotoBlog(Resources res) {
-        //TODO: insetensi el form events here Bro: Amri
-    }
-
-    @Override
     protected void gotoLogin(Resources res) {
         new LoginForm(res).show();
     }

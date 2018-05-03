@@ -232,10 +232,6 @@ public class detailEvent extends SideMenuBaseForm {
         new ReadEvents(res).show();
     }
 
-    @Override
-    protected void gotoBlog(Resources res) {
-        //TODO: insetensi el form events here Bro: Amri
-    }
 
     @Override
     protected void gotoLogin(Resources res) {
