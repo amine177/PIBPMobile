@@ -21,16 +21,14 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-<<<<<<< HEAD
+
 import java.io.IOException;
 import tn.esprit.events.ReadEvents;
-=======
 import java.util.ArrayList;
 import tn.esprit.entite.Etablissement;
 import tn.esprit.entite.Utilisateur;
 import tn.esprit.services.EtablissementService;
 import tn.esprit.services.UtilisateurService;
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
 
 
 
@@ -125,14 +123,11 @@ public class ProfileForm extends SideMenuBaseForm {
     }
 
    @Override
-<<<<<<< HEAD
+
     protected void gotoEvents(Resources res) throws IOException {
         new ReadEvents(res).show();
-=======
-    protected void gotoEvents(Resources res) {
-        //new ReadEvents(res).show();
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
     }
+
 
    
     @Override

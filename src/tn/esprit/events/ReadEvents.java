@@ -16,18 +16,14 @@ import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
-<<<<<<< HEAD
+
 import com.codename1.ui.EncodedImage;
-=======
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
+
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
-<<<<<<< HEAD
-import com.codename1.ui.InfiniteContainer;
-=======
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
+
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
@@ -53,82 +49,62 @@ import tn.esprit.widgets.SideMenuBaseForm;
  *
  * @author Nayer Jaber
  */
-public class ReadEvents extends SideMenuBaseForm{
+public class ReadEvents extends SideMenuBaseForm {
 
     public ReadEvents(Resources res) throws IOException {
-          Form f = new Form(); 
-          Form fo = new Form("Basic List",new BorderLayout());
-             FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
-          fab.addActionListener(e -> gotoajoutEvent(res));
-<<<<<<< HEAD
-          fab.bindFabToContainer( fo.getContentPane());
+        Form f = new Form();
+        Form fo = new Form("Basic List", new BorderLayout());
+        FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
+        fab.addActionListener(e -> gotoajoutEvent(res));
+
+        fab.bindFabToContainer(fo.getContentPane());
+
+        Container List = new Container(BoxLayout.y());
+        List.setScrollableY(true);
+        EventService es = new EventService();
+        ArrayList<Evenements> lis = es.getEvents();
+        Style s = UIManager.getInstance().getComponentStyle("MultiLine1");
+        FontImage p = FontImage.createMaterial(FontImage.MATERIAL_PORTRAIT, s);
+        EncodedImage placeholder = EncodedImage.createFromImage(p.scaled(p.getWidth() * 3, p.getHeight() * 3), false);
+        for (int i = 0; i < lis.size(); i++) {
+            Container cc = new Container();
+            final int c = lis.get(i).getId();
+            System.out.println(c);
+            Label Adresse = new Label();
+            Label nom = new Label();
+            Label D = new Label();
+            Image image = URLImage.createToStorage(placeholder, lis.get(i).getBrochure(), "http://127.0.0.1/" + lis.get(i).getBrochure());
+            MultiButton mb = new MultiButton(lis.get(i).getNom());
+            mb.setTextLine3(lis.get(i).getAdresse());
+            mb.setTextLine4(lis.get(i).getDateF());
+            mb.setIcon(image);
+
+            List.add(mb);
+            mb.addActionListener((al) -> gotoDetails(res, c));
+
+        };
+        fo.add(CENTER, List);
+        add(fo);
         
-   
-                           
-                   
-                     Container List = new Container(BoxLayout.y()) ;
-             List.setScrollableY(true);
-               EventService es = new EventService() ; 
-                ArrayList<Evenements> lis=es.getEvents();
-                Style s = UIManager.getInstance().getComponentStyle("MultiLine1");
-                  FontImage p = FontImage.createMaterial(FontImage.MATERIAL_PORTRAIT, s);
-                 EncodedImage placeholder = EncodedImage.createFromImage(p.scaled(p.getWidth() * 3, p.getHeight() * 3), false);
-               for (int i =0 ; i<lis.size() ; i++){
-                     Container cc = new Container();
-                     final int c = lis.get(i).getId();
-                     System.out.println(c );
-                Label Adresse = new Label(); 
-                Label nom = new Label () ;
-                Label D = new Label(); 
-                Image image = URLImage.createToStorage( placeholder, lis.get(i).getBrochure(), "http://127.0.0.1/"+lis.get(i).getBrochure());
-                   MultiButton mb= new MultiButton(lis.get(i).getNom());
-                   mb.setTextLine3(lis.get(i).getAdresse());
-                   mb.setTextLine4(lis.get(i).getDateF());
-                   mb.setIcon(image);
-              
-               List.add(mb);
-               mb.addActionListener((al) -> gotoDetails(res,c));
-         
-         
-                   };
-               fo.add(CENTER,List);
-               add(fo);
-    
-    
 
-    
-  
-        add(f);
-=======
-          fab.bindFabToContainer( f.getContentPane());
-        EventService es = new EventService() ; 
-         ArrayList<Evenements> lis=es.getEvents();
-            lb.setText(lis.get(0).getNom());
-            add(lb);
-            add(f);
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
+        setupSideMenu(res);
+        repaint();
 
-
-  
-
-    setupSideMenu(res);
-        
-        
     }
- @Override
+
+    @Override
     public void setupSideMenu(Resources res) {
-           
+
         Toolbar b = getToolbar();
         b.removeAll();
-        
+
         // Ajouter boutton a son container
         Button menuButton = new Button("Click me");
-        
+
         Container titleCmp = BoxLayout.encloseY(
-                FlowLayout.encloseIn(menuButton)             
+                FlowLayout.encloseIn(menuButton)
         );
-      
-      
+
         titleCmp.setScrollableY(false);
         titleCmp.setScrollableX(false);
         // AJOUTER le container du BOUTTON OU toolbar
@@ -143,7 +119,7 @@ public class ReadEvents extends SideMenuBaseForm{
             try {
                 gotoEvents(res);
             } catch (IOException ex) {
-            
+
             }
         });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
@@ -152,8 +128,6 @@ public class ReadEvents extends SideMenuBaseForm{
 
     }
 
-    
-    
     @Override
     protected void showOtherForm(Resources res) {
         new StatsForm(res).show();
@@ -175,20 +149,16 @@ public class ReadEvents extends SideMenuBaseForm{
     }
 
     @Override
-    protected void gotoBlog(Resources res) {
-        //TODO: insetensi el form events here Bro: Amri
-    }
-
-    @Override
     protected void gotoLogin(Resources res) {
         new LoginForm(res).show();
     }
 
     private void gotoajoutEvent(Resources res) {
-       new ajoutEvent(res).show();
+        new ajoutEvent(res).show();
     }
-        private void gotoDetails(Resources res , int id){
-        new detailEvent(res,id).show();
+
+    private void gotoDetails(Resources res, int id) {
+        new detailEvent(res, id).show();
     }
-    
+
 }

@@ -13,10 +13,9 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
-<<<<<<< HEAD
+
 import com.codename1.processing.Result;
-=======
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
+
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.events.ActionListener;
@@ -34,9 +33,7 @@ import tn.esprit.entite.Evenements;
  * @author Nayer Jaber
  */
 public class EventService {
-<<<<<<< HEAD
- 
-=======
+
     
     
     
@@ -66,7 +63,7 @@ public class EventService {
     }
     
     
->>>>>>> 2346313131cf24f8beff1552c1ea1f4c91246fe0
+
     public void ajoutE(Evenements ev) throws IOException {
         MultipartRequest con = new MultipartRequest();
         String Url = "http://localhost/ajout.php?nom=" + ev.getNom() + "&adresse="+ ev.getAdresse()+"&date="+ev.getDateF()+"&brochure="+ev.getBrochure() ;
