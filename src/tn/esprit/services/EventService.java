@@ -5,11 +5,16 @@
  */
 package tn.esprit.services;
 
+import com.codename1.capture.Capture;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
+import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,14 +30,52 @@ public class EventService {
     
     
     
+    public void ajout() throws IOException{
+        
+        String url = "http://localhost/upload.php";
+        
+        MultipartRequest cr = new MultipartRequest();
+        String  filePath = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
+        System.out.println(filePath);
+        cr.setUrl(url);
+        cr.setPost(true);
+        String mime="image/jpeg";
+         int fileNameIndex = filePath.lastIndexOf("/") + 1;
+            String fileName = filePath.substring(fileNameIndex);
+          
+        cr.addData("file", filePath, mime);
+        cr.setFilename("file", fileName);//any unique name you want
+       
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        cr.setDisposeOnCompletion(dlg);
+        cr.addResponseListener((e) -> {
+            String str = new String(cr.getResponseData());
+            System.out.println(str);});
+        NetworkManager.getInstance().addToQueueAndWait(cr);
+    }
     
     
-    
-    public void ajoutE(Evenements ev) {
-        ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/ajout.php?nom=" + ev.getNom() + "&adresse="+ ev.getAdresse()+"&date="+ev.getDate();
+    public void ajoutE(Evenements ev) throws IOException {
+        MultipartRequest con = new MultipartRequest();
+        String Url = "http://localhost/ajout.php?nom=" + ev.getNom() + "&adresse="+ ev.getAdresse()+"&date="+ev.getDateF()+"&brochure="+ev.getBrochure() ;
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(ev.getBrochure());
+        
+                      if(ev.getBrochure() != "" ){
+        String mime="image/jpeg";
+         int fileNameIndex = ev.getBrochure().lastIndexOf("/") + 1;
+            String fileName = ev.getBrochure().substring(fileNameIndex);
+            con.addData("file", ev.getBrochure(), mime);
+        con.setFilename("file", fileName);//any unique name you want
+       
+        InfiniteProgress prog = new InfiniteProgress();
+        Dialog dlg = prog.showInifiniteBlocking();
+        con.setDisposeOnCompletion(dlg);
+                      }
         con.setUrl(Url);
-
+        con.setPost(true);
+       
         System.out.println("tt");
 
         con.addResponseListener((e) -> {

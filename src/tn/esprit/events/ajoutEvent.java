@@ -5,10 +5,9 @@
  */
 package tn.esprit.events;
 
-import com.codename1.components.FloatingActionButton;
-import com.codename1.components.SpanLabel;
+
+import com.codename1.capture.Capture;
 import com.codename1.components.ToastBar;
-import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -16,15 +15,25 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.Image;
+import com.codename1.ui.Label;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Date;
+
+
 import tn.esprit.entite.Evenements;
 import tn.esprit.profil.LoginForm;
 import tn.esprit.profil.ProfileForm;
@@ -32,65 +41,101 @@ import tn.esprit.profil.StatsForm;
 import tn.esprit.services.EventService;
 import tn.esprit.widgets.SideMenuBaseForm;
 
+
 /**
  *
  * @author Nayer Jaber
  */
 public class ajoutEvent extends SideMenuBaseForm {
     
-          
+
+        
  public ajoutEvent(Resources res)  {
    
-        
+        Evenements e = new Evenements() ; 
  
      
             Form hi = new Form();
-     
+                    
             Picker datePicker = new Picker();
             datePicker.setType(Display.PICKER_TYPE_DATE);
-            datePicker.setDate(new Date());
-           System.out.println( datePicker.getDate());
-           
-          Date l =datePicker.getDate() ;
-           SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String ymd = ymdFormat.format(l);
-           
-           ;
-           
+          
+            Date d = datePicker.getDate();
+            System.out.println(d);
+
+       datePicker.addActionListener( (l)-> {
+       Date d2=  datePicker.getDate() ;
+
+     if( d.getTime() -  d2.getTime() >0)
+        ToastBar.showMessage("Date invalid ",FontImage.MATERIAL_WARNING);
+     else if (d.getTime() -  d2.getTime() == 0) {
+         SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            String ymd = ymdFormat.format(d);
             
-           
+            System.out.println(ymd);
+  
+         e.setDateF(ymd);
+     }else {
+         
+        SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            String ymd = ymdFormat.format(d2);
+            
+            System.out.println(ymd);
+  
+         e.setDateF(ymd);
+     }
+  
+       });
+    
             TextField nom = new TextField("", "Nom de l'évenements", 20, TextArea.ANY);
             TextField adresse = new TextField("", "Adresse", 100, TextArea.ANY);
+            Toolbar.setGlobalToolbar(true);
+            Form c = new Form("Rounder", new BorderLayout());
+e.setBrochure("");
+             Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
+            Image camera = FontImage.createMaterial(FontImage.MATERIAL_CAMERA, s);
+         String ch = "" ;
+            c.getToolbar().addCommandToRightBar("", camera, (ev) -> {
+                
+                       String  filePath = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
+                   
+                           e.setBrochure(filePath);
+                       
+                        System.out.println(filePath);
+                        
+   
+});            
+            
+            
             Button ajout = new Button ("Ajout") ; 
-                   hi.add(nom).add(datePicker).add(ajout).add(adresse);
+                   hi.add(nom).add(datePicker).add(ajout).add(adresse) ;
                         ajout.addActionListener((i)->{
-                 if(nom.getText()==""){
-                    ToastBar.showMessage("SAISIR UN NOM!",FontImage.MATERIAL_WARNING);
-                 }else if (adresse.getText()==""){
-                     ToastBar.showMessage("SAISIR UNE ADRESSE!",FontImage.MATERIAL_WARNING);
-                 }else{
-           ToastBar.showMessage("SUCESS D'AJOUT !",FontImage.MATERIAL_DONE);
+                             if(nom.getText()==""){
+                                ToastBar.showMessage("SAISIR UN NOM D'EVENEMENT !",FontImage.MATERIAL_WARNING);
+                             }else  if (adresse.getText()==""){
+                                ToastBar.showMessage("SAISIR UNE ADRESSE !",FontImage.MATERIAL_WARNING);
+                             }else{
+                                ToastBar.showMessage("SUCESS D'AJOUT !",FontImage.MATERIAL_DONE);
            EventService es = new EventService();
-          // Evenements e = new Evenements( nom.getText(), , adresse.getText());
-            //es.ajoutE(e);
-                     
+     
+           
+           
+           e.setNom(nom.getText());
+           e.setAdresse(adresse.getText());
+                                 try {
+                                     es.ajoutE(e);
+                                 } catch (IOException ex) {
+                                 }
+                      
                  }
                
             }
             
             );
                        add(hi);
-                       
+                       add(c);
          
-        
- 
-        
-       
-       
-       
-       
-       
-       
+                       
         setupSideMenu(res);
         
         
