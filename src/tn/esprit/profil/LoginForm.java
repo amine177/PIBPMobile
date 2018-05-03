@@ -18,6 +18,10 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
 
+import tn.esprit.securite.FOSJCrypt;
+import tn.esprit.securite.Sha512;
+
+
 
 public class LoginForm extends Form {
     public LoginForm(Resources theme) {
@@ -36,8 +40,9 @@ public class LoginForm extends Form {
         System.out.println(mask==null);
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
         Label profilePicLabel = new Label(profilePic, "ProfilePic");
-        profilePicLabel.setMask(mask.createMask());
-        //TODO: Authentification
+        profilePicLabel.setMask(mask.createMask());      
+        /*UtilisateurService es=new UtilisateurService();
+        ArrayList<Utilisateur> users = es.selectAllEnabled();*/
         TextField login = new TextField("admin", "Login", 20,TextField.ANY) ;
         TextField password = new TextField("admin", "Password", 20, TextField.PASSWORD) ;
         login.getAllStyles().setMargin(LEFT, 0);
@@ -51,10 +56,18 @@ public class LoginForm extends Form {
 
         Button loginButton = new Button("LOGIN");
         loginButton.setUIID("LoginButton");
+        
         loginButton.addActionListener(e -> {
-            Toolbar.setGlobalToolbar(false);
-            new WalkthruForm(theme).show();
-            Toolbar.setGlobalToolbar(true);
+            try {
+                if(true)                {
+                     Toolbar.setGlobalToolbar(false);
+                     new WalkthruForm(theme).show();
+                     Toolbar.setGlobalToolbar(true);
+                }              
+            } catch (Exception ex) {
+                
+            }
+            
         });
 
         Button createNewAccount = new Button("CREATE NEW ACCOUNT");
@@ -80,10 +93,16 @@ public class LoginForm extends Form {
                 loginButton,
                 createNewAccount
         );
-        add(BorderLayout.CENTER, by);
-
-        // for low res and landscape devices
+        add(BorderLayout.CENTER, by);      
         by.setScrollableY(true);
         by.setScrollVisible(false);
     }
+    /*public boolean userLogging(String userIdentity, String password) throws Exception  {
+    UtilisateurService us=new UtilisateurService();
+    if (Authenticator.validate(userIdentity, password)) {
+    return true;
+    } else {
+    return false;
+    }
+    }*/
 }

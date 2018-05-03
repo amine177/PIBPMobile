@@ -22,7 +22,9 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import java.util.ArrayList;
+import tn.esprit.entite.Etablissement;
 import tn.esprit.entite.Utilisateur;
+import tn.esprit.services.EtablissementService;
 import tn.esprit.services.UtilisateurService;
 
 
@@ -38,7 +40,7 @@ public class ProfileForm extends SideMenuBaseForm {
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
         Label profilePicLabel = new Label(profilePic, "ProfilePicTitle");
         profilePicLabel.setMask(mask.createMask());
-        Button menuButton = new Button("Click me");
+        Button menuButton = new Button("");
         menuButton.setUIID("Title");
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         menuButton.addActionListener(e -> getToolbar().openSideMenu());
@@ -68,11 +70,8 @@ public class ProfileForm extends SideMenuBaseForm {
         FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_VISIBILITY);
         fab.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
         fab.getAllStyles().setMargin(BOTTOM, completedTasks.getPreferredH() - fab.getPreferredH() / 2);
-        tb.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));
-        UtilisateurService us=new UtilisateurService();
-        ArrayList<Utilisateur> useeers = us.selectAllEnabled();
-        
-        add(new Label(useeers.get(0).getId().toString(), "TodayTitle"));
+        tb.setTitleComponent(fab.bindFabToContainer(titleCmp,  CENTER, BOTTOM));              
+        add(new Label("Mes expériences", "TodayTitle"));
         
         //FontImage arrowDown = FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN, "Label", 3);
 
@@ -122,7 +121,7 @@ public class ProfileForm extends SideMenuBaseForm {
 
    @Override
     protected void gotoEvents(Resources res) {
-        new ReadEvents(res).show();
+        //new ReadEvents(res).show();
     }
 
    

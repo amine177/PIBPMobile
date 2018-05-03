@@ -53,10 +53,10 @@ public class WalkthruForm extends Form {
 
         Container tab1 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
                 notesPlaceholder,
-                new Label("Keep track of your tasks", "WalkthruWhite"),
-                new SpanLabel("Never miss an appointment, never forget about your " +
-                        "daily team meeting and remember when your favorite " +
-                        "team is playing.",  "WalkthruBody"),
+                new Label("Chercher la bonne destination", "WalkthruWhite"),
+                new SpanLabel("Ne rater aucune opprtunite, N'hesiter pas de poser vos questions " +
+                        "" +
+                        "",  "WalkthruBody"),
                 bottomSpace
         ));
         tab1.setUIID("WalkthruTab1");

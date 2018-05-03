@@ -56,11 +56,16 @@ public class Etablissement  implements Serializable{
     //parser
     public Etablissement(Map<String, Object> obj) {
         Float f= Float.parseFloat(obj.get("id").toString());
-        this.id = f.intValue();        
+        this.id = f.intValue();  
+        if(obj.get("nom")!=null)
         this.nom = obj.get("nom").toString();
+        if(obj.get("adresse")!=null)
         this.adresse = obj.get("adresse").toString();
+        if(obj.get("gouvernorat")!=null)
         this.gouvernorat = obj.get("gouvernorat").toString();
+        if(obj.get("ville")!=null)
         this.ville = obj.get("ville").toString();
+        if(obj.get("note")!=null)
         this.note = Double.parseDouble(obj.get("note").toString());
         /*DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -69,11 +74,16 @@ public class Etablissement  implements Serializable{
            System.out.println(ex.getMessage());
         }*/
         this.horraire=new Date();
+        if(obj.get("longitude")!=null)
         this.longitude = Double.parseDouble(obj.get("longitude").toString());
+        if(obj.get("latitude")!=null)
         this.latitude = Double.parseDouble(obj.get("latitude").toString());
-        this.estActive = (Boolean) obj.get("estActive");
+        this.estActive =  Boolean.parseBoolean(obj.get("estActive").toString());//.booleanValue();   
+        if(obj.get("description")!=null)
         this.description = obj.get("description").toString();
+        if(obj.get("type")!=null)
         this.type = obj.get("type").toString();
+        if(obj.get("photo")!=null)
         this.photo = obj.get("photo").toString();       
         /*try {
             this.horraire_f =(Date)formatter.parse(obj.get("horraire_f").toString());

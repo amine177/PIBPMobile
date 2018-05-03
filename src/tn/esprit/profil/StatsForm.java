@@ -30,7 +30,7 @@ import tn.esprit.events.ReadEvents;
  */
 public class StatsForm extends SideMenuBaseForm {
     private static final int[] COLORS = {0xf8e478, 0x60e6ce, 0x878aee};
-    private static final String[] LABELS = {"Design", "Coding", "Learning"};
+    private static final String[] LABELS = {"Evenements", "Experiences", "Revues"};
 
     public StatsForm(Resources res) {
         super(new BorderLayout());
