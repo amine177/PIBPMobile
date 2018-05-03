@@ -1,13 +1,25 @@
 package tn.esprit;
 
 
+import com.codename1.db.Cursor;
+import com.codename1.db.Database;
+import com.codename1.io.FileSystemStorage;
+import com.codename1.io.Log;
+import com.codename1.io.Util;
 import static com.codename1.ui.CN.*;
 import com.codename1.ui.Form;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.Toolbar;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+
 import tn.esprit.entite.Utilisateur;
+import tn.esprit.profil.BaseDD;
 import tn.esprit.profil.LoginForm;
 
 
@@ -21,11 +33,9 @@ public class Main {
     private Form current;
     private Resources theme;
     private static Utilisateur loggedUser;
-
-    public void init(Object context) {
-        // use two network threads instead of one
-        //updateNetworkThreadCount(2);
-
+    private static Database DB=null;
+    
+    public void init(Object context) {      
         theme = UIManager.initFirstTheme("/theme");        
         // Enable Toolbar on all Forms by default
         Toolbar.setGlobalToolbar(true);
@@ -34,10 +44,12 @@ public class Main {
     }
     
     public void start() {
-        if(current != null){
-            current.show();
-            return;
-        }
+       
+            if(current != null){
+                current.show();
+                return;
+            }
+                   
         new LoginForm(theme).show();
     }
 
