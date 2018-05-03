@@ -16,14 +16,11 @@ import tn.esprit.securite.User;
 public class BaseDD {
     Database db=null;
     public static String createUserTableDb(){
-        String query="CREATE TABLE User ( \n" +
-"	username             varchar(180) NOT NULL  ,\n" +
-"	plain                 varchar(255)   NOT NULL,\n" +
-" );";
+        String query="CREATE TABLE user (username varchar(180),plain  varchar(255));";
         return query;
     }
     public static String insertUser(User u){
-        String query="insert into User value('"+u.getLogin()+"','"+u.getPlain()+"')";
+        String query="insert into user value('"+u.getLogin()+"','"+u.getPlain()+"')";
         return query;
     }
 }

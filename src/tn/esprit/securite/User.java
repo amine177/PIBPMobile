@@ -14,7 +14,7 @@ public class User {
     private String login;
     private String plain;
 
-    public User(int id, String login, String plain) {
+    public User( String login, String plain) {
         
         this.login = login;
         this.plain = plain;
