@@ -36,6 +36,7 @@ public class BonPlan extends SideMenuBaseForm{
     ArrayList<Etablissement> etabs=new ArrayList<>();
     public BonPlan(Resources res) {
         super(BoxLayout.y());
+        setTitle("Etablissements");
         //Show list etabs here
         etabs=etbsev.selectAllEnabled();
         for(int i=0;i<etabs.size();i++)
