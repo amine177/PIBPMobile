@@ -1,5 +1,9 @@
 package tn.esprit;
 
+import com.codename1.db.Database;
+import com.codename1.io.FileSystemStorage;
+
+import com.codename1.io.Util;
 import static com.codename1.ui.CN.*;
 import com.codename1.ui.Form;
 import com.codename1.ui.Dialog;
@@ -14,9 +18,10 @@ import java.io.OutputStream;
 
 import com.codename1.util.EasyThread;
 import java.util.ArrayList;
+
 import tn.esprit.entite.Article;
 import tn.esprit.entite.Utilisateur;
-import tn.esprit.profil.BaseDD;
+
 import tn.esprit.profil.LoginForm;
 import tn.esprit.services.BlogService;
 
@@ -31,7 +36,7 @@ public class Main {
     public boolean firstRun = true;
     public ArrayList<Article> oldList;
     private static Utilisateur loggedUser;
-
+    Database db;
     public void init(Object context) {
         // use two network threads instead of one
         //updateNetworkThreadCount(2);
@@ -39,13 +44,29 @@ public class Main {
         // Enable Toolbar on all Forms by default
         Toolbar.setGlobalToolbar(true);
         Toolbar.setCenteredDefault(false);
-
+           String path = Display.getInstance().getDatabasePath("MyDB.db");
+        if(path != null && !FileSystemStorage.getInstance().exists(path)) {
+            copyDb(path);
+        }
     }
-
+     private void copyDb(String path) {
+        try(InputStream i = Display.getInstance().getResourceAsStream(getClass(), "/MyDB.db");
+                OutputStream o = FileSystemStorage.getInstance().openOutputStream(path)) {
+            Util.copy(i, o);
+        } catch(IOException err) {
+            System.out.println(err.getCause());
+        }
+    }
     public void start() {
         if (current != null) {
             current.show();
             return;
+        }
+        
+        try {
+            db = Display.getInstance().openOrCreate("MyDB.db");
+        } catch (IOException ex) {
+            System.out.println(ex.getCause());
         }
         BlogService bS = new BlogService();
         Display.getInstance().callSerially(new Runnable() {
@@ -70,7 +91,9 @@ public class Main {
                 }
             }
         });
-        new LoginForm(theme).show();
+        LoginForm lg=new LoginForm(theme);
+        lg.setDb(db);
+        lg.show();
     }
 
     public void stop() {

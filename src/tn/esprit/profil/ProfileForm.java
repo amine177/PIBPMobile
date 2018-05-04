@@ -24,12 +24,14 @@ import com.codename1.ui.util.Resources;
 import java.util.ArrayList;
 import tn.esprit.entite.Etablissement;
 import tn.esprit.entite.Utilisateur;
+import tn.esprit.securite.Authenticator;
 import tn.esprit.services.EtablissementService;
 import tn.esprit.services.UtilisateurService;
 
 
 
 public class ProfileForm extends SideMenuBaseForm {
+    
     public ProfileForm(Resources res) {
         super(BoxLayout.y());
         System.out.println("PROFILEEEEEEEEEEEEEEEEEEEEEEEEEEE");
@@ -60,7 +62,7 @@ public class ProfileForm extends SideMenuBaseForm {
                 FlowLayout.encloseIn(menuButton),
                 BorderLayout.centerAbsolute(
                         BoxLayout.encloseY(
-                                new Label("Ben Saleh Zain", "Title"),
+                                new Label(Authenticator.getCurrentAuth().getUsername(), "Title"),
                                 new Label("ROLE_CLIENT", "SubTitle")
                         )
                 ).add(BorderLayout.WEST, profilePicLabel),
