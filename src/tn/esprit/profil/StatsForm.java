@@ -22,6 +22,7 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import java.io.IOException;
 import tn.esprit.events.ReadEvents;
 
 /**
@@ -177,7 +178,7 @@ public class StatsForm extends SideMenuBaseForm {
     }
 
     @Override
-    protected void gotoEvents(Resources res) {
+    protected void gotoEvents(Resources res) throws IOException {
         new ReadEvents(res).show();
     }
 

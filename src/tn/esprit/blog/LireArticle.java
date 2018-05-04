@@ -5,6 +5,7 @@
  */
 package tn.esprit.blog;
 
+import com.codename1.io.FileSystemStorage;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -22,6 +23,9 @@ import tn.esprit.entite.CommentaireB;
 import tn.esprit.entite.Tag;
 import tn.esprit.services.BlogService;
 import tn.esprit.widgets.SideMenuBaseForm;
+import com.codename1.io.Util;
+import com.codename1.ui.Dialog;
+import java.io.IOException;
 
 /**
  *
@@ -74,7 +78,13 @@ public class LireArticle extends SideMenuBaseForm {
         menuButton.addActionListener((e) -> b.openSideMenu());
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         b.addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
-        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> showOtherForm(res));
+        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> {
+            try {
+                gotoEvents(res);
+            } catch (IOException ex) {
+               
+            }
+        });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
         b.addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         b.addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
@@ -89,7 +99,16 @@ public class LireArticle extends SideMenuBaseForm {
         browser.setPreferredSize(new Dimension(300, 300));
         browser.setScrollableY(true);
         browser.setPage(article.getTexte(), "");
-        articleContainer.add(new Label(article.getTitre()));
+        Label titreA = new Label(article.getTitre());
+        titreA.getAllStyles().setFgColor(0x000000);
+        articleContainer.add(titreA);
+        Button pdfBut = new Button("Exporter PDF");
+        pdfBut.addActionListener((evt)->{
+            String filename = article.getId()+""+article.getAuteurn()+".pdf";
+            getFile(filename, article.getId());
+            Dialog.show("Succes","Fichier enregistré en " + FileSystemStorage.getInstance().getAppHomePath() + filename, "OK", null );
+        });
+             articleContainer.add(pdfBut);
         int i = 1;
         Container tagContainer = new Container();
         tagContainer.setLayout(new FlowLayout());
@@ -102,6 +121,7 @@ public class LireArticle extends SideMenuBaseForm {
                 System.out.println(tag + " " + article.getTagCollection().indexOf(tag));
                 Label tagLabel = new Label(tag.getName());
                 tagLabel.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                tagLabel.getAllStyles().setFgColor(0xFA023C);
                 tagLabel.addPointerPressedListener((evt) -> {
                     ListeArticles blog = new ListeArticles(res);
                     BlogService bS = new BlogService();
@@ -145,8 +165,12 @@ public class LireArticle extends SideMenuBaseForm {
                     commentC.add(new Label(commentaire.getAuteurn()));
 
                     Label texteC = new Label(commentaire.getText());
-                      Label modifier = new Label("Modifier");
+                  Label modifier = new Label("Modifier");
+                modifier.getAllStyles().setFgColor(0x00bfff);
+                modifier.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
                 Label supprimer = new Label("Supprimer");
+                supprimer.getAllStyles().setFgColor(0xFA023C);
+                supprimer.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
                 modifier.addPointerPressedListener((evt1) -> {
                     commentaireTextArea.setText(commentaire.getText());
                     commentaireModified = commentaire;
@@ -163,6 +187,7 @@ public class LireArticle extends SideMenuBaseForm {
                 modSupC.add(supprimer);
                 commentC.add(modSupC);
                     texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+                                    texteC.getAllStyles().setFgColor(0x000000);
                     commentC.add(texteC);
                     commentairesContainer.add(commentC);
                     commentaireTextArea.setText("");
@@ -180,7 +205,11 @@ public class LireArticle extends SideMenuBaseForm {
                 Label texteC = new Label(commentaire.getText());
 
                 Label modifier = new Label("Modifier");
+                modifier.getAllStyles().setFgColor(0x00bfff);
+                modifier.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
                 Label supprimer = new Label("Supprimer");
+                supprimer.getAllStyles().setFgColor(0xFA023C);
+                supprimer.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
                 modifier.addPointerPressedListener((evt) -> {
                     commentaireTextArea.setText(commentaire.getText());
                     commentaireModified = commentaire;
@@ -197,6 +226,7 @@ public class LireArticle extends SideMenuBaseForm {
                 modSupC.add(supprimer);
                 commentC.add(modSupC);
                 texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+                texteC.getAllStyles().setFgColor(0x000000);
                 commentC.add(texteC);
                 commentairesContainer.add(commentC);
                 // TO REMOVE
@@ -207,4 +237,13 @@ public class LireArticle extends SideMenuBaseForm {
         repaint();
 
     }
+    
+    public void getFile(String filename, int id){
+
+    if(filename==null||filename.length()<1)
+        return;
+
+    String fullPathToFile = FileSystemStorage.getInstance().getAppHomePath()+filename;
+    Util.downloadUrlToFileSystemInBackground("http://127.0.0.1:8000/blog/pdf/"+id, fullPathToFile);
+}
 }

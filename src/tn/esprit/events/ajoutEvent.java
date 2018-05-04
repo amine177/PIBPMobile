@@ -63,6 +63,10 @@ public class ajoutEvent extends SideMenuBaseForm {
             Date d = datePicker.getDate();
             System.out.println(d);
 
+             SimpleDateFormat mdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            String md = mdFormat.format(d);
+            e.setDateF(md);
+
        datePicker.addActionListener( (l)-> {
        Date d2=  datePicker.getDate() ;
 
@@ -91,7 +95,9 @@ public class ajoutEvent extends SideMenuBaseForm {
             TextField adresse = new TextField("", "Adresse", 100, TextArea.ANY);
             Toolbar.setGlobalToolbar(true);
             Form c = new Form("Rounder", new BorderLayout());
-e.setBrochure("");
+
+            e.setBrochure("");
+
              Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
             Image camera = FontImage.createMaterial(FontImage.MATERIAL_CAMERA, s);
          String ch = "" ;
@@ -161,7 +167,12 @@ e.setBrochure("");
         menuButton.addActionListener((e) -> b.openSideMenu());
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         b.addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
-        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> gotoEvents(res));
+        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> {
+            try {
+                gotoEvents(res);
+            } catch (IOException ex) {
+            }
+        });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
         b.addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         b.addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
@@ -186,13 +197,8 @@ e.setBrochure("");
     }
 
     @Override
-    protected void gotoEvents(Resources res) {
+    protected void gotoEvents(Resources res) throws IOException {
         new ReadEvents(res).show();
-    }
-
-    @Override
-    protected void gotoBlog(Resources res) {
-        //TODO: insetensi el form events here Bro: Amri
     }
 
     @Override

@@ -21,8 +21,9 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
        $row_array['id'] = $row['id'];
        $row_array['nom'] = $row['nom'];
-       $row_array['description'] = $row['description'];
+       $row_array['dateF'] = $row['dateF'];
 	   $row_array['adresse'] = $row['adresse'];
+	   $row_array['brochure'] = $row['brochure'];
     array_push($return_arr,$row_array);
     }
 } 

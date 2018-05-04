@@ -32,6 +32,7 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.util.EasyThread;
+import java.io.IOException;
 import java.util.ArrayList;
 import tn.esprit.entite.Article;
 import tn.esprit.entite.CommentaireB;
@@ -168,7 +169,7 @@ public class ListeArticles extends SideMenuBaseForm {
         Toolbar b = getToolbar();
         b.removeAll();
         // Ajouter boutton a son container
-        Button menuButton = new Button("Click me");
+        Button menuButton = new Button("");
         Container titleCmp = BoxLayout.encloseY(
                 FlowLayout.encloseIn(menuButton)
         );
@@ -183,7 +184,13 @@ public class ListeArticles extends SideMenuBaseForm {
         menuButton.addActionListener((e) -> b.openSideMenu());
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         b.addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
-        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> showOtherForm(res));
+        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> {
+            try {
+                gotoEvents(res);
+            } catch (IOException ex) {
+                
+            }
+        });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
         b.addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         b.addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
@@ -197,6 +204,7 @@ public class ListeArticles extends SideMenuBaseForm {
 
         for (Article article : articles) {
             Label titre = new Label(article.getTitre());
+            titre.getAllStyles().setFgColor(0x0c42c0);
             titre.addPointerPressedListener((evt) -> {
                 LireArticle lireArticle = new LireArticle(res, article);
                 lireArticle.show();
@@ -206,6 +214,7 @@ public class ListeArticles extends SideMenuBaseForm {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
             Label informations = new Label("Crée par " + article.getAuteurn()
                     + " le " + formatter.format(article.getCreated()));
+            informations.getAllStyles().setFont(Font.createSystemFont(Font.FACE_MONOSPACE, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
             //System.out.println(article);
             Container articleInfoContainer = new Container(BoxLayout.y());
             articleInfoContainer.add(titre);

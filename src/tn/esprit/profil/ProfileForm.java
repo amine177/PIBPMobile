@@ -21,6 +21,9 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+
+import java.io.IOException;
+import tn.esprit.events.ReadEvents;
 import java.util.ArrayList;
 import tn.esprit.entite.Etablissement;
 import tn.esprit.entite.Utilisateur;
@@ -122,9 +125,11 @@ public class ProfileForm extends SideMenuBaseForm {
     }
 
    @Override
-    protected void gotoEvents(Resources res) {
-        //new ReadEvents(res).show();
+
+    protected void gotoEvents(Resources res) throws IOException {
+        new ReadEvents(res).show();
     }
+
 
    
     @Override
