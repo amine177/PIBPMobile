@@ -64,6 +64,7 @@ public class LoginForm extends Form {
               db = Database.openOrCreate("MyDb");
               if (created == false) {       
                 db.execute("create table user ( id INTEGER,login TEXT, pass TEXT);");
+               
             }
 
         } catch (IOException ex) {
