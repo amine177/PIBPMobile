@@ -91,7 +91,7 @@ public abstract class SideMenuBaseForm extends Form {
         new LoginForm(res).show();
     };
 
-    private void gotoBonPlan(Resources res) {
+    protected void gotoBonPlan(Resources res) {
         new BonPlan(res).show();
     }
 }
