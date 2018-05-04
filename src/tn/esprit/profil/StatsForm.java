@@ -24,6 +24,7 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import tn.esprit.events.ReadEvents;
+import tn.esprit.securite.Authenticator;
 
 /**
  *
@@ -64,8 +65,8 @@ public class StatsForm extends SideMenuBaseForm {
                         add(BorderLayout.CENTER, space).
                         add(BorderLayout.SOUTH,
                                 FlowLayout.encloseIn(
-                                        new Label("  Zain ", "WelcomeBlue"),
-                                        new Label("Ben Saleh", "WelcomeWhite")
+                                        new Label(Authenticator.getCurrentAuth().getUsername(), "WelcomeBlue"),
+                                        new Label("", "WelcomeWhite")
                                 ));
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);

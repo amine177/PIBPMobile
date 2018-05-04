@@ -3,12 +3,16 @@ import com.google.common.io.BaseEncoding;
 
 
 
-import com.google.common.primitives.Bytes;
+//import com.google.common.primitives.Bytes;
 
 
 import javabc.SecureRandom;
 import com.codename1.util.Base64;
+import java.io.UnsupportedEncodingException;
+import org.bouncycastle.crypto.Digest;
+
 import org.bouncycastle.crypto.digests.SHA512Digest;
+        
 
 
 /**
@@ -21,8 +25,8 @@ import org.bouncycastle.crypto.digests.SHA512Digest;
  * @author Zain ELabidine membre de " The Optimists"
  * @Email: zainelabidine.bensaleh@esprit.tn
  *Api à télécharger:
- * 1) guava-19.0.jar
- * 2) commons-codec-1.7.jar
+ * 1) bc de cd1
+ * 
  *
  */
 public class FOSJCrypt {
@@ -38,9 +42,11 @@ public class FOSJCrypt {
     }
     public static Sha512 crypt(String clairPass) {
         String gs=generateSalt();
-        System.out.println(gs);
+        //System.out.println(gs);
         try {
+            
             byte[] hash = encodePassword(clairPass, gs);
+            
             return passwordToPersist(hash, clairPass, gs);
         } catch (Exception  ex) {
             System.out.println("++++++++"+ex.getMessage());
@@ -55,8 +61,7 @@ public class FOSJCrypt {
      * ine7i el char el le5er
      * @return
      */
-    private static String generateSalt() {
-        System.out.println("generateing");
+    private static String generateSalt() {       
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[SALT_SIZE];
         random.nextBytes(salt);
@@ -75,18 +80,56 @@ public class FOSJCrypt {
      * @throws NoSuchAlgorithmException
      * @throws UnsupportedEncodingException
      */
-    private static byte[] encodePassword(String password,String salt) throws Exception
-             {                 
+    /*private static byte[] encodePassword(String password,String salt) throws UnsupportedEncodingException 
+             {      
+                 
         String mergedPasswordAndSalt =mergePasswordAndSalt(password, salt);
-        SHA512Digest digester =new  SHA512Digest();
-        byte[] hash=mergedPasswordAndSalt.getBytes("UTF-8");
-        digester.doFinal(hash,0);
-        for (int i = 1; i < ITERATIONS; ++i) {           
-            digester.doFinal(Bytes.concat(hash, mergedPasswordAndSalt.getBytes("UTF-8")),0);
-        }            
+        SHA512Digest digester =new  SHA512Digest();   
+        
+        byte[] hash = new byte[digester.getDigestSize()];   
+        digester.update(hash, 0, mergedPasswordAndSalt.length());
+        digester.doFinal(hash, 0);
+                 System.out.println("init hash= "+Base64.encode(hash));  
+              byte[] c=new byte[88];
+              c = concat(hash,mergedPasswordAndSalt.getBytes("UTF-8")); 
+        for (int  i = 1; i < ITERATIONS; ++i) {  
+                                                        
+            digester.doFinal(c,0);            
+                          
+        }     
+        System.out.println("FINAL hash= "+Base64.encode(hash));
+        return hash;
+    }*/
+    private static byte[] encodePassword(String password,String salt) throws UnsupportedEncodingException 
+             {      
+                 
+        String mergedPasswordAndSalt =mergePasswordAndSalt(password, salt);
+        
+        
+        byte[] hash = new byte[88];   
+            
+       hash=digestt(mergedPasswordAndSalt.getBytes("UTF-8"));  
+                 System.out.println("init hash= "+Base64.encode(hash));  
+              
+              
+        for (int  i = 1; i < ITERATIONS; ++i) {                                                          
+            hash=digestt(concat(hash,mergedPasswordAndSalt.getBytes("UTF-8")));
+                          
+        }     
+        System.out.println("FINAL hash= "+Base64.encode(hash));
         return hash;
     }
+    public static byte[] digestt(byte[] bytes) {
+        Digest digest = new SHA512Digest();
+        byte[] resBuf = new byte[digest.getDigestSize()];
 
+        digest.update(bytes, 0, bytes.length);
+        digest.doFinal(resBuf, 0);
+        return resBuf;
+    }
+    
+    
+  
     /**
      * i7ot des accolade mnloul welle5er mta3 salt
      * @param pass
@@ -128,5 +171,29 @@ public class FOSJCrypt {
         byte[] comparisonHash = encodePassword(passwordClair, salt);    
         byte[] originalHash = Base64.decode(originalHashStr.getBytes("UTF-8"));
         return comparePasswords(originalHash, comparisonHash);
+    }
+    public static byte[] concat(byte[]... arrays) {
+        int length = 0;
+        byte[][] arr$ = arrays;
+        int pos = arrays.length;
+
+        for(int i$ = 0; i$ < pos; ++i$) {
+            byte[] array = arr$[i$];
+            length += array.length;
+        }
+
+        byte[] result = new byte[length];
+        pos = 0;
+        byte[][] arr$$=arrays; 
+        arr$=arr$$;
+        int len$ = arrays.length;
+
+        for(int i$ = 0; i$ < len$; ++i$) {
+            byte[] array = arr$[i$];
+            System.arraycopy(array, 0, result, pos, array.length);
+            pos += array.length;
+        }
+
+        return result;
     }
 }

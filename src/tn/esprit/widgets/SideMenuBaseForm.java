@@ -20,6 +20,7 @@ import tn.esprit.events.ReadEvents;
 import tn.esprit.profil.BonPlan;
 import tn.esprit.profil.LoginForm;
 import tn.esprit.profil.ProfileForm;
+import tn.esprit.profil.StatsForm;
 
 public abstract class SideMenuBaseForm extends Form {
 
@@ -72,7 +73,7 @@ public abstract class SideMenuBaseForm extends Form {
     };
 
     protected void gotoStats(Resources res) {
-        
+        new StatsForm(res).show();
     };
 
     protected void gotoEvents(Resources res) throws IOException {

@@ -24,6 +24,8 @@ import tn.esprit.widgets.SideMenuBaseForm;
 import com.codename1.crypto.EncryptedStorage;
 
 import com.codename1.crypto.EncryptedStorage;
+import java.io.IOException;
+
 
 /**
  *
@@ -64,7 +66,11 @@ public class BonPlan extends SideMenuBaseForm{
                 ));
         add(cnt);
         
-        gouvlbl.addPointerPressedListener(e -> new DetailForm(res, etab).show());        
+        gouvlbl.addPointerPressedListener(e ->  {
+            DetailForm form = new DetailForm(res, etab);
+            System.out.println("**************" + form != null);
+            form.show();
+        });        
         
     }
     @Override    
@@ -88,7 +94,13 @@ public class BonPlan extends SideMenuBaseForm{
         menuButton.addActionListener((e) -> b.openSideMenu());
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         b.addMaterialCommandToSideMenu("  Profil", FontImage.MATERIAL_ARCHIVE, e -> gotoProfile(res));
-        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> showOtherForm(res));
+        b.addMaterialCommandToSideMenu("  Evenements", FontImage.MATERIAL_ACCESS_TIME, e -> {
+            try {
+                gotoEvents(res);
+            } catch (IOException ex) {
+                System.out.println("");
+            }
+        });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
         b.addMaterialCommandToSideMenu("  Paramétres", FontImage.MATERIAL_SETTINGS, e -> gotoStats(res));
         b.addMaterialCommandToSideMenu("  Déconnecter", FontImage.MATERIAL_EXIT_TO_APP, e -> gotoLogin(res));
