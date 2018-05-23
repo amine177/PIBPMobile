@@ -144,6 +144,7 @@ public class LireArticle extends SideMenuBaseForm {
         //bind actions to comment
         commentairesContainer.add(commenterButton);
         commenterButton.addActionListener((evt) -> {
+            if (commentaireTextArea.getText().length() != 0) {
             if (commentaireModified != null && commentaireModifiedT != null) {
                 System.out.println("modifying!");
                 BlogService bS = new BlogService();
@@ -197,6 +198,10 @@ public class LireArticle extends SideMenuBaseForm {
                     commentaireTextArea.setHint("Ajouter un commentaire...");
                     repaint();
                 }
+            }
+            }
+            else {
+                Dialog.show("Erreur", "Le commentaire est vide", "OK", null);
             }
         });
         if (article.getCommentaireBCollection() != null && !article.getCommentaireBCollection().isEmpty()) {
