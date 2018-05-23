@@ -57,7 +57,7 @@ public class ReadEvents extends SideMenuBaseForm {
         FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
         fab.addActionListener(e -> gotoajoutEvent(res));
 
-        fab.bindFabToContainer(fo .getContentPane());
+        fab.bindFabToContainer(fo.getContentPane());
 
         Container List = new Container(BoxLayout.y());
         List.setScrollableY(true);
@@ -73,7 +73,7 @@ public class ReadEvents extends SideMenuBaseForm {
             Label Adresse = new Label();
             Label nom = new Label();
             Label D = new Label();
-            Image image = URLImage.createToStorage(placeholder, lis.get(i).getBrochure(), "http://127.0.0.1/PIDEV - Copy/web/images/" + lis.get(i).getBrochure());
+            Image image = URLImage.createToStorage(placeholder, lis.get(i).getBrochure(), "http://127.0.0.1/PIDEV - Copy/web/bundles/blog/template/images/" + lis.get(i).getBrochure());
             MultiButton mb = new MultiButton(lis.get(i).getNom());
             mb.setTextLine3(lis.get(i).getAdresse());
             mb.setTextLine4(lis.get(i).getDateF());

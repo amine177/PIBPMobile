@@ -19,7 +19,7 @@ if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "im
         $named_array = array("Response" => array(array("Status" => "error")));
         echo json_encode($named_array);
     } else {
-        move_uploaded_file($_FILES["file"]["tmp_name"], "C:\wamp64\www/" . $_FILES["file"]["name"]);
+        move_uploaded_file($_FILES["file"]["tmp_name"],"C:\wamp64\www\PIDEV - Copy\web\bundles\blog\template\images/". $_FILES["file"]["name"]);
 		
         $Path = $_FILES["file"]["name"];
 		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" ; 
@@ -32,14 +32,16 @@ if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "im
     echo json_encode($named_array);
 }
 
-
+$user=$_GET['utilisateur_id'];
+echo $user ; 
 $nom=$_GET['nom'];
 $date=$_GET['date'];
 $adresse=$_GET['adresse'];
-$sql = "INSERT INTO evenements (nom,dateF,adresse,brochure)
-VALUES ( '$nom','$date','$adresse','$Path')";
+$sql = "INSERT INTO evenements (nom,dateF,adresse,brochure,utilisateur_id)
+VALUES ( '$nom','$date','$adresse','$Path','$user')";
 if (mysqli_query($conn, $sql)) {
     echo "success";
+	echo $Path;
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
