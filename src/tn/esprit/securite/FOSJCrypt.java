@@ -119,6 +119,7 @@ public class FOSJCrypt {
         System.out.println("FINAL hash= "+Base64.encode(hash));
         return hash;
     }
+    
     public static byte[] digestt(byte[] bytes) {
         Digest digest = new SHA512Digest();
         byte[] resBuf = new byte[digest.getDigestSize()];

@@ -5,6 +5,7 @@
  */
 package tn.esprit.profil;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
@@ -21,10 +22,15 @@ import java.util.ArrayList;
 import tn.esprit.entite.Etablissement;
 import tn.esprit.services.EtablissementService;
 import tn.esprit.widgets.SideMenuBaseForm;
-import com.codename1.crypto.EncryptedStorage;
+
 
 import com.codename1.crypto.EncryptedStorage;
+import com.codename1.ui.EncodedImage;
+import com.codename1.ui.URLImage;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
+
 
 
 /**
@@ -49,26 +55,35 @@ public class BonPlan extends SideMenuBaseForm{
     }
     
     private void etabContainer(Resources res,Etablissement etab) {
-        int height = Display.getInstance().convertToPixels(11.5f);
-        int width = Display.getInstance().convertToPixels(14f);
-        Label gouvlbl=new Label(etab.getGouvernorat());
-        Container cnt = BorderLayout.west(gouvlbl);
-        cnt.setLeadComponent(gouvlbl);
-        TextArea ta = new TextArea(etab.getAdresse());
-        ta.setUIID("");
-        ta.setEditable(false);
+        int height = Display.getInstance().convertToPixels(15f);
+        int width = Display.getInstance().convertToPixels(25f);
+        
+        Container cnt = new Container(BorderLayout.absolute());                      
         Label nomlbl = new Label(etab.getNom());
-        nomlbl.setTextPosition(RIGHT);
-        Label villelbl = new Label(etab.getVille());
-        villelbl.setTextPosition(LEFT);
-        cnt.add(BorderLayout.CENTER,
-                BoxLayout.encloseY(
-                        ta, BoxLayout.encloseX(nomlbl, villelbl)
-                ));
+        //Label image=new Label();
+        
+        if(etab.getPhoto()!=null){
+            EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(80, 80), true);
+ URLImage background = URLImage.createToStorage(placeholder, "http://127.0.0.1:8000/web/bundles/blog/template/images/" + etab.getPhoto(),
+        "http://127.0.0.1:8000/web/bundles/blog/template/images/" + etab.getPhoto());
+background.fetch();
+//         EncodedImage imge = EncodedImage.createFromImage(Image.createImage(80,80), true);
+//        URLImage imgg = URLImage.createToStorage(imge,"Medium_" + etab.getPhoto(), "http://127.0.0.1:8000/web/bundles/blog/template/images/" + etab.getPhoto(), URLImage.RESIZE_SCALE);
+//        imgg.fetch();        
+//         image= new Label(imgg.fill(width, height));
+        
+        cnt.add(BorderLayout.EAST,background);
+    }
+         cnt.add(BorderLayout.WEST,nomlbl);        
         add(cnt);
-        
-        gouvlbl.addPointerPressedListener(e -> new DetailForm(res, etab).show());        
-        
+        setScrollableY(true);
+        setScrollableX(true);
+        nomlbl.addPointerPressedListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                new DetailForm(res, etab).show();
+            }
+        });        
     }
     @Override    
     public void setupSideMenu(Resources res) {
