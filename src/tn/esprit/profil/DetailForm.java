@@ -45,8 +45,14 @@ public class DetailForm extends SideMenuBaseForm{
         nomlbl.setTextPosition(RIGHT);
         Label villelbl = new Label(currentEtab.getVille());
         villelbl.setTextPosition(LEFT);
+        if(currentEtab.getNote()!=null)
         cnt.add(new Label(currentEtab.getNote().toString()));
+        else
+            cnt.add(new Label("No notes here"));
+        if(currentEtab.getDescription()!=null)
         cnt.add(new TextArea(currentEtab.getDescription().toString()));
+        else
+            cnt.add(new Label("No Desc here"));
         add(cnt);
     }
     @Override    

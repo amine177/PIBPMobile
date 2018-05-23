@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import tn.esprit.entite.Etablissement;
 import tn.esprit.entite.Evenements;
+import tn.esprit.securite.Authenticator;
 
 /**
  *
@@ -65,8 +66,10 @@ public class EventService {
     
 
     public void ajoutE(Evenements ev) throws IOException {
+        
         MultipartRequest con = new MultipartRequest();
-        String Url = "http://localhost/ajout.php?nom=" + ev.getNom() + "&adresse="+ ev.getAdresse()+"&date="+ev.getDateF()+"&brochure="+ev.getBrochure() ;
+      System.out.println("SDLKFJQSLDKFJQSLKDFJLQSKDFJLQKSDFJLKJLKJ"+Authenticator.getCurrentAuth().getId());
+        String Url = "http://localhost/ajout.php?nom=" + ev.getNom() + "&adresse="+ ev.getAdresse()+"&date="+ev.getDateF()+"&brochure="+ev.getBrochure()+"&utilisateur_id="+Authenticator.getCurrentAuth().getId() ;
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
         System.out.println(ev.getBrochure());
         

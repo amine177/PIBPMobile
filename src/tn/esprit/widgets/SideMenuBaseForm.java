@@ -21,6 +21,7 @@ import tn.esprit.profil.BonPlan;
 import tn.esprit.profil.LoginForm;
 import tn.esprit.profil.ProfileForm;
 import tn.esprit.profil.StatsForm;
+import tn.esprit.securite.Authenticator;
 
 public abstract class SideMenuBaseForm extends Form {
 
@@ -44,7 +45,7 @@ public abstract class SideMenuBaseForm extends Form {
         Image mask = res.getImage("round-mask.png");
         mask = mask.scaledHeight(mask.getHeight() / 4 * 3);
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-        Label profilePicLabel = new Label("  Ben Saleh Zain", profilePic, "SideMenuTitle");
+        Label profilePicLabel = new Label(Authenticator.getCurrentAuth().getUsername(), profilePic, "SideMenuTitle");
         profilePicLabel.setMask(mask.createMask());
 
         Container sidemenuTop = BorderLayout.center(profilePicLabel);

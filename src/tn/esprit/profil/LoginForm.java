@@ -90,11 +90,8 @@ public class LoginForm extends Form {
         profilePicLabel.setMask(mask.createMask());      
         /*UtilisateurService es=new UtilisateurService();
         ArrayList<Utilisateur> users = es.selectAllEnabled();*/
-          login = new TextField("admin", "Login", 20,TextField.ANY) ;
-          login.getStyle().setFgColor(0x000000);
-          password = new TextField("admin", "Password", 20, TextField.PASSWORD) ; 
-                    password.getStyle().setFgColor(0x000000);
-
+          login = new TextField("admin", "Login", 20,TextField.ANY) ;login.getStyle().setFgColor(00000);
+          password = new TextField("admin", "Password", 20, TextField.PASSWORD) ;   password.getStyle().setFgColor(00000);    
         if(storedUser!=null){
          login = new TextField(storedUser.getLogin(), "", 20,TextField.ANY) ;
          password = new TextField(storedUser.getPlain(), "Password", 20, TextField.PASSWORD) ;  
