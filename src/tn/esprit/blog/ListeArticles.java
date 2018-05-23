@@ -123,15 +123,16 @@ public class ListeArticles extends SideMenuBaseForm {
         //c.setScrollableX(false);
         //c.setScrollableY(false);
         //c.setScrollable(false);
-
         Label srchText = new Label("Recherche:");
         TextField searchFiled = new TextField("", "rechercher...");
-        searchFiled.addActionListener((evt) -> {
+        searchFiled.getAllStyles().setFgColor(0x000000);
+        searchFiled.addDataChangedListener((int d1, int d2) -> {
             BlogService bS = new BlogService();
             if (!searchFiled.getText().equals("")) {
                 setArticles(bS.findByText(searchFiled.getText()));
             } else {
                 setArticles(bS.findAll());
+
             }
         });
         searchContainer.add(srchText);
@@ -188,7 +189,7 @@ public class ListeArticles extends SideMenuBaseForm {
             try {
                 gotoEvents(res);
             } catch (IOException ex) {
-                
+
             }
         });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));

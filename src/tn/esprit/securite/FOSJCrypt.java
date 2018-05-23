@@ -1,5 +1,4 @@
 package tn.esprit.securite;
-import com.google.common.io.BaseEncoding;
 
 
 
@@ -8,6 +7,7 @@ import com.google.common.io.BaseEncoding;
 
 import javabc.SecureRandom;
 import com.codename1.util.Base64;
+import com.google.common.io.BaseEncoding;
 import java.io.UnsupportedEncodingException;
 import org.bouncycastle.crypto.Digest;
 

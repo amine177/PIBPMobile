@@ -63,7 +63,7 @@ public class ajoutEvent extends SideMenuBaseForm {
             Date d = datePicker.getDate();
             System.out.println(d);
 
-             SimpleDateFormat mdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+             SimpleDateFormat mdFormat = new SimpleDateFormat("yyyy-MM-dd ");
             String md = mdFormat.format(d);
             e.setDateF(md);
 
@@ -73,7 +73,7 @@ public class ajoutEvent extends SideMenuBaseForm {
      if( d.getTime() -  d2.getTime() >0)
         ToastBar.showMessage("Date invalid ",FontImage.MATERIAL_WARNING);
      else if (d.getTime() -  d2.getTime() == 0) {
-         SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+         SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd ");
             String ymd = ymdFormat.format(d);
             
             System.out.println(ymd);
@@ -81,7 +81,7 @@ public class ajoutEvent extends SideMenuBaseForm {
          e.setDateF(ymd);
      }else {
          
-        SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat ymdFormat = new SimpleDateFormat("yyyy -MM-dd ");
             String ymd = ymdFormat.format(d2);
             
             System.out.println(ymd);

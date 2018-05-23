@@ -53,7 +53,7 @@ public class ReadEvents extends SideMenuBaseForm {
 
     public ReadEvents(Resources res) throws IOException {
         Form f = new Form();
-        Form fo = new Form("Basic List", new BorderLayout());
+        Form fo = new Form("Liste des evenements", new BorderLayout());
         FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
         fab.addActionListener(e -> gotoajoutEvent(res));
 
@@ -73,7 +73,7 @@ public class ReadEvents extends SideMenuBaseForm {
             Label Adresse = new Label();
             Label nom = new Label();
             Label D = new Label();
-            Image image = URLImage.createToStorage(placeholder, lis.get(i).getBrochure(), "http://127.0.0.1/" + lis.get(i).getBrochure());
+            Image image = URLImage.createToStorage(placeholder, lis.get(i).getBrochure(), "http://127.0.0.1/PIDEV - Copy/web/bundles/blog/template/images/" + lis.get(i).getBrochure());
             MultiButton mb = new MultiButton(lis.get(i).getNom());
             mb.setTextLine3(lis.get(i).getAdresse());
             mb.setTextLine4(lis.get(i).getDateF());

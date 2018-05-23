@@ -63,7 +63,12 @@ public class BlogService {
                 //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        try {
         NetworkManager.getInstance().addToQueueAndWait(cR);
+        }
+        catch (NullPointerException e) {
+            
+        }
         return retF;
 
     }
@@ -99,7 +104,12 @@ public class BlogService {
                 //Logger.getLogger(BlogService.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        try {
         NetworkManager.getInstance().addToQueueAndWait(cR);
+        }
+        catch (NullPointerException e) {
+            
+        }
         return retAllArt;
     }
 
