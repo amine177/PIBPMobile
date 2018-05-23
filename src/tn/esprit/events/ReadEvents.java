@@ -53,7 +53,7 @@ public class ReadEvents extends SideMenuBaseForm {
 
     public ReadEvents(Resources res) throws IOException {
         Form f = new Form();
-        Form fo = new Form("Basic List", new BorderLayout());
+        Form fo = new Form("Liste des evenements", new BorderLayout());
         FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
         fab.addActionListener(e -> gotoajoutEvent(res));
 

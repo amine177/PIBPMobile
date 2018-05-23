@@ -67,7 +67,11 @@ public class BonPlan extends SideMenuBaseForm{
                 ));
         add(cnt);
         
-        gouvlbl.addPointerPressedListener(e -> new DetailForm(res, etab).show());        
+        gouvlbl.addPointerPressedListener(e ->  {
+            DetailForm form = new DetailForm(res, etab);
+            System.out.println("**************" + form != null);
+            form.show();
+        });        
         
     }
     @Override    
