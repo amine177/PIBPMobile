@@ -26,6 +26,7 @@ import tn.esprit.widgets.SideMenuBaseForm;
 import com.codename1.io.Util;
 import com.codename1.ui.Dialog;
 import java.io.IOException;
+import tn.esprit.securite.Authenticator;
 
 /**
  *
@@ -82,7 +83,7 @@ public class LireArticle extends SideMenuBaseForm {
             try {
                 gotoEvents(res);
             } catch (IOException ex) {
-               
+
             }
         });
         b.addMaterialCommandToSideMenu("  Blog", FontImage.MATERIAL_BOOK, e -> gotoBlog(res));
@@ -103,12 +104,12 @@ public class LireArticle extends SideMenuBaseForm {
         titreA.getAllStyles().setFgColor(0x000000);
         articleContainer.add(titreA);
         Button pdfBut = new Button("Exporter PDF");
-        pdfBut.addActionListener((evt)->{
-            String filename = article.getId()+""+article.getAuteurn()+".pdf";
+        pdfBut.addActionListener((evt) -> {
+            String filename = article.getId() + "" + article.getAuteurn() + ".pdf";
             getFile(filename, article.getId());
-            Dialog.show("Succes","Fichier enregistré en " + FileSystemStorage.getInstance().getAppHomePath() + filename, "OK", null );
+            Dialog.show("Succes", "Fichier enregistré en " + FileSystemStorage.getInstance().getAppHomePath() + filename, "OK", null);
         });
-             articleContainer.add(pdfBut);
+        articleContainer.add(pdfBut);
         int i = 1;
         Container tagContainer = new Container();
         tagContainer.setLayout(new FlowLayout());
@@ -155,7 +156,7 @@ public class LireArticle extends SideMenuBaseForm {
                 commentaireTextArea.setHint("Ajouter un commentaire...");
             } else {
                 BlogService bS = new BlogService();
-                CommentaireB commentaire = new CommentaireB(commentaireTextArea.getText(), "admin", 34);
+                CommentaireB commentaire = new CommentaireB(commentaireTextArea.getText(), Authenticator.getCurrentAuth().getUsername(), Authenticator.getCurrentAuth().getId());
                 commentaire.setId(-1);
 
                 CommentaireB returned = bS.ajouterCommentaireB(article, commentaire);
@@ -165,29 +166,31 @@ public class LireArticle extends SideMenuBaseForm {
                     commentC.add(new Label(commentaire.getAuteurn()));
 
                     Label texteC = new Label(commentaire.getText());
-                  Label modifier = new Label("Modifier");
-                modifier.getAllStyles().setFgColor(0x00bfff);
-                modifier.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
-                Label supprimer = new Label("Supprimer");
-                supprimer.getAllStyles().setFgColor(0xFA023C);
-                supprimer.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
-                modifier.addPointerPressedListener((evt1) -> {
-                    commentaireTextArea.setText(commentaire.getText());
-                    commentaireModified = commentaire;
-                    commentaireModifiedT = texteC;
-                });
-                supprimer.addPointerPressedListener((evt2) -> {
-                    BlogService bS1 = new BlogService();
-                    if (bS1.supprimerCommentiareB(commentaire.getId())) {
-                        commentC.remove();
-                        repaint();
+                    Label modifier = new Label("Modifier");
+                    modifier.getAllStyles().setFgColor(0x00bfff);
+                    modifier.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                    Label supprimer = new Label("Supprimer");
+                    supprimer.getAllStyles().setFgColor(0xFA023C);
+                    supprimer.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+                    modifier.addPointerPressedListener((evt1) -> {
+                        commentaireTextArea.setText(commentaire.getText());
+                        commentaireModified = commentaire;
+                        commentaireModifiedT = texteC;
+                    });
+                    supprimer.addPointerPressedListener((evt2) -> {
+                        BlogService bS1 = new BlogService();
+                        if (bS1.supprimerCommentiareB(commentaire.getId())) {
+                            commentC.remove();
+                            repaint();
+                        }
+                    });
+                    if (commentaire.getAuteur() == Authenticator.getCurrentAuth().getId()) {
+                        modSupC.add(modifier);
+                        modSupC.add(supprimer);
+                        commentC.add(modSupC);
                     }
-                });
-                modSupC.add(modifier);
-                modSupC.add(supprimer);
-                commentC.add(modSupC);
                     texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
-                                    texteC.getAllStyles().setFgColor(0x000000);
+                    texteC.getAllStyles().setFgColor(0x000000);
                     commentC.add(texteC);
                     commentairesContainer.add(commentC);
                     commentaireTextArea.setText("");
@@ -222,9 +225,11 @@ public class LireArticle extends SideMenuBaseForm {
                         repaint();
                     }
                 });
-                modSupC.add(modifier);
-                modSupC.add(supprimer);
-                commentC.add(modSupC);
+                if (commentaire.getAuteur() == Authenticator.getCurrentAuth().getId()) {
+                    modSupC.add(modifier);
+                    modSupC.add(supprimer);
+                    commentC.add(modSupC);
+                }
                 texteC.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
                 texteC.getAllStyles().setFgColor(0x000000);
                 commentC.add(texteC);
@@ -237,13 +242,14 @@ public class LireArticle extends SideMenuBaseForm {
         repaint();
 
     }
-    
-    public void getFile(String filename, int id){
 
-    if(filename==null||filename.length()<1)
-        return;
+    public void getFile(String filename, int id) {
 
-    String fullPathToFile = FileSystemStorage.getInstance().getAppHomePath()+filename;
-    Util.downloadUrlToFileSystemInBackground("http://127.0.0.1:8000/blog/pdf/"+id, fullPathToFile);
-}
+        if (filename == null || filename.length() < 1) {
+            return;
+        }
+
+        String fullPathToFile = FileSystemStorage.getInstance().getAppHomePath() + filename;
+        Util.downloadUrlToFileSystemInBackground("http://127.0.0.1:8000/blog/pdf/" + id, fullPathToFile);
+    }
 }
