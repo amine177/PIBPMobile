@@ -19,7 +19,7 @@ if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "im
         $named_array = array("Response" => array(array("Status" => "error")));
         echo json_encode($named_array);
     } else {
-        move_uploaded_file($_FILES["file"]["tmp_name"],"C:\wamp64\www\PIDEV - Copy\web\bundles\blog\template\images/". $_FILES["file"]["name"]);
+        move_uploaded_file($_FILES["file"]["tmp_name"],"C:\wamp64\www\PIDEV - Copy\web\bundles\blog/template/images/". $_FILES["file"]["name"]);
 		
         $Path = $_FILES["file"]["name"];
 		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" ; 
