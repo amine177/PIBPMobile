@@ -101,7 +101,7 @@ public class WalkthruForm extends Form {
             }
         });
 
-        Button skip = new Button("SKIP TUTORIAL");
+        Button skip = new Button("Dépaçer");
         skip.setUIID("SkipButton");
         skip.addActionListener(e -> new ProfileForm(res).show());
 

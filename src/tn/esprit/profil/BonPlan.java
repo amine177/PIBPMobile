@@ -6,6 +6,7 @@
 package tn.esprit.profil;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.components.MultiButton;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
@@ -29,6 +30,8 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 import java.io.IOException;
 
 
@@ -58,33 +61,28 @@ public class BonPlan extends SideMenuBaseForm{
         int height = Display.getInstance().convertToPixels(15f);
         int width = Display.getInstance().convertToPixels(25f);
         
-        Container cnt = new Container(BorderLayout.absolute());                      
-        Label nomlbl = new Label(etab.getNom());
-        //Label image=new Label();
-        
+        Container cnt = new Container(BoxLayout.y());         
         if(etab.getPhoto()!=null){
-            EncodedImage placeholder = EncodedImage.createFromImage(Image.createImage(80, 80), true);
- URLImage background = URLImage.createToStorage(placeholder, "http://127.0.0.1:8000/web/bundles/blog/template/images/" + etab.getPhoto(),
-        "http://127.0.0.1:8000/web/bundles/blog/template/images/" + etab.getPhoto());
-background.fetch();
-//         EncodedImage imge = EncodedImage.createFromImage(Image.createImage(80,80), true);
-//        URLImage imgg = URLImage.createToStorage(imge,"Medium_" + etab.getPhoto(), "http://127.0.0.1:8000/web/bundles/blog/template/images/" + etab.getPhoto(), URLImage.RESIZE_SCALE);
-//        imgg.fetch();        
-//         image= new Label(imgg.fill(width, height));
-        
-        cnt.add(BorderLayout.EAST,background);
-    }
-         cnt.add(BorderLayout.WEST,nomlbl);        
+            Style s = UIManager.getInstance().getComponentStyle("MultiLine1");
+            FontImage p = FontImage.createMaterial(FontImage.MATERIAL_PORTRAIT, s);
+            EncodedImage placeholder = EncodedImage.createFromImage(p.scaled(p.getWidth() * 3, p.getHeight() * 3), false);
+            URLImage imag = URLImage.createToStorage(placeholder, etab.getPhoto(),
+            "http://127.0.0.1/Esprit/Dossier3/PIDEV/web/bundles/blog/template/images/" + etab.getPhoto()); 
+            MultiButton mb = new MultiButton();
+            mb.setTextLine3(etab.getNom());
+            mb.setTextLine4(etab.getType());
+            mb.setIcon(imag);
+        cnt.add(mb);
+                 
         add(cnt);
         setScrollableY(true);
         setScrollableX(true);
-        nomlbl.addPointerPressedListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                new DetailForm(res, etab).show();
-            }
-        });        
+        mb.addActionListener((al) -> new DetailForm(res, etab));
+        } 
+        
+         repaint();
     }
+    
     @Override    
     public void setupSideMenu(Resources res) {
         Toolbar b = getToolbar();
