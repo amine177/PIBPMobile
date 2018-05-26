@@ -129,7 +129,9 @@ public class EventService {
                         e.setId((int) id);
                         e.setNom(obj.get("nom").toString());
                         e.setAdresse(obj.get("adresse").toString());
+                        if (obj.get("dateF") != null) {
                         e.setDateF(obj.get("dateF").toString());
+                        }
                         e.setBrochure(obj.get("brochure").toString());
                                                 System.out.println("+++++++++++++++++++++++++++++++++");
 
